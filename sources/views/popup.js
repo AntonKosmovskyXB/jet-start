@@ -114,20 +114,22 @@ export default class PopupView extends JetView {
 	init() {
 		this.form = this.$$("popupForm");
 		this.popup = this.getRoot();
+		this.saveButton = this.$$("saveButton");
+		this.header = this.$$("header");
 	}
 
 	showPopup(id) {
 		if (id && activities.exists(id)) {
 			this.form.setValues(activities.getItem(id));
 			const headerTemplate = "Edit activity";
-			this.$$("saveButton").setValue("Save");
-			this.$$("header").setValues({headerTemplate});
+			this.saveButton.setValue("Save");
+			this.header.setValues({headerTemplate});
 		}
 
 		else {
 			const headerTemplate = "Add activity";
-			this.$$("saveButton").setValue("Add");
-			this.$$("header").setValues({headerTemplate});
+			this.saveButton.setValue("Add");
+			this.header.setValues({headerTemplate});
 		}
 
 		this.popup.show();

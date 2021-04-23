@@ -13,8 +13,9 @@ export default class ContactsView extends JetView {
 					select: true,
 					width: 300,
 					type: {
-						template: "<span class='webix_icon wxi-user'></span> <span class='contact-name'>#value#</span> <br> <span class='contact-company'>#Company#</span>",
-						height: 70
+						template: `<div class="contacts-list"><span class='webix_icon wxi-user'></span> <div class='short-info'>
+						<span class='contact-name'>#value#</span> <br> <span class='contact-company' style="font-size: 11px">#Company#</span></div></div>`,
+						height: 45
 					},
 					on: {
 						onAfterSelect: () => {
