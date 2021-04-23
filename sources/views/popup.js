@@ -144,6 +144,7 @@ export default class PopupView extends JetView {
 			else {
 				activities.add(newItem);
 			}
+
 			this.popup.hide();
 			this.form.clear();
 		}
