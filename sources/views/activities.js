@@ -82,7 +82,7 @@ export default class ActivitiesView extends JetView {
 							}).then(() => {
 								activities.remove(id);
 							});
-							this.popup.hide();
+							this.popup.closePopup();
 							return false;
 						},
 						"wxi-pencil": (event, id) => {
