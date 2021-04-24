@@ -8,6 +8,7 @@ export default class PopupView extends JetView {
 	config() {
 		const window = {
 			view: "window",
+			modal: true,
 			localId: "popup",
 			head: {
 				localId: "header",
@@ -55,17 +56,20 @@ export default class PopupView extends JetView {
 							{
 								view: "datepicker",
 								type: "date",
+								required: true,
 								name: "DueDate",
 								label: "Date",
-								format: webix.i18n.dateFormatStr
+								format: webix.i18n.dateFormatStr,
+								invalidMessage: "Date should be selected"
 							},
-							{},
 							{
 								view: "datepicker",
 								type: "time",
+								required: true,
 								name: "Time",
 								label: "Time",
-								format: webix.i18n.timeFormatStr
+								format: webix.i18n.timeFormatStr,
+								invalidMessage: "Time should be selected"
 							}
 						]
 					},
@@ -96,9 +100,7 @@ export default class PopupView extends JetView {
 									webix.confirm({
 										text: "Are you sure that you want to close editor?"
 									}).then(() => {
-										this.popup.hide();
-										this.form.clear();
-										this.form.clearValidation();
+										this.closePopup();
 									});
 								}
 							}
@@ -147,8 +149,13 @@ export default class PopupView extends JetView {
 				activities.add(newItem);
 			}
 
-			this.popup.hide();
-			this.form.clear();
+			this.closePopup();
 		}
+	}
+
+	closePopup() {
+		this.popup.hide();
+		this.form.clear();
+		this.form.clearValidation();
 	}
 }
