@@ -56,3 +56,48 @@
 	font-size:20px;
 	vertical-align:middle;
 }
+
+.full-name {
+    font-size: 30px;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.user-photo {
+    width: 200px;
+    height: 200px;
+}
+
+.user-main-info {
+    display: flex;
+    justify-content: left;
+    height: 500px;
+}
+
+
+.first-info-column {
+    margin-left: 40px;
+    width: 160px;
+}
+
+.second-info-column {
+    margin-left: 30px;
+}
+
+.user-name {
+    margin-left: 20px;
+}
+
+.short-info {
+    display: inline-block;
+    height: 14px;
+    line-height: 18px;
+    margin-left: 15px;
+    margin-top: 5px;
+}
+
+.contacts-list .webix_icon {
+    font-size: 40px;
+}
