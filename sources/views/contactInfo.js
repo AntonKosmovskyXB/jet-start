@@ -2,6 +2,8 @@ import {JetView} from "webix-jet";
 
 import contacts from "../models/contacts";
 import statuses from "../models/statuses";
+import ContactsFormView from "./contactsForm";
+import ContactsTableView from "./contactsTable";
 
 export default class ContactInfoView extends JetView {
 	config() {
@@ -38,7 +40,16 @@ export default class ContactInfoView extends JetView {
 							label: "Delete",
 							icon: "wxi-trash",
 							css: "user-info-button",
-							width: 110
+							width: 110,
+							click: () => {
+								const currentId = this.getParam("id", true);
+								webix.confirm({
+									text: "Are you sure that you want to remove this contact?"
+								}).then(() => {
+									contacts.remove(currentId);
+								});
+								return false;
+							}
 						},
 						{
 							view: "button",
@@ -46,7 +57,15 @@ export default class ContactInfoView extends JetView {
 							label: "Edit",
 							icon: "wxi-pencil",
 							css: "user-info-button",
-							width: 110
+							width: 110,
+							click: () => {
+								const currentId = this.getParam("id", true);
+								const parentView = this.getParentView();
+								parentView.show("./contactsForm").then(() => {
+									const contactsFormView = parentView.getSubView();
+									contactsFormView.showForm(currentId);
+								});
+							}
 						}
 					]
 				},
@@ -62,9 +81,13 @@ export default class ContactInfoView extends JetView {
 						buttons
 					]
 				},
-				{}
+				{ContactsTableView}
 			]
 		};
+	}
+
+	init() {
+		this.contactsForm = this.ui(ContactsFormView);
 	}
 
 	urlChange() {
@@ -72,7 +95,7 @@ export default class ContactInfoView extends JetView {
 			contacts.waitData,
 			statuses.waitData
 		]).then(() => {
-			const currentId = this.getParam("id") || contacts.getFirstId();
+			const currentId = this.getParam("id", true) || contacts.getFirstId();
 			const currentUser = contacts.getItem(currentId);
 			currentUser.Status = statuses.getItem(currentUser.StatusID).Value;
 			if (currentId && contacts.exists(currentId)) {

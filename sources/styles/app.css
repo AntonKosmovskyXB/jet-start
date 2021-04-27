@@ -101,3 +101,8 @@
 .contacts-list .webix_icon {
     font-size: 40px;
 }
+
+.header-label .webix_el_box {
+    font-size: 24px;
+    margin-left: 20px;
+}
