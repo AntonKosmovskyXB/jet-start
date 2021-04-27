@@ -2,12 +2,15 @@ import {JetView} from "webix-jet";
 
 import activities from "../models/activities";
 import activitiesTypes from "../models/activitiesTypes";
+import contacts from "../models/contacts";
+import PopupView from "./popup";
 
 export default class ContactsTableView extends JetView {
 	config() {
-		return {
+		const activitiesTable = {
 			view: "datatable",
 			localId: "activitiesTable",
+			scroll: "y",
 			select: true,
 			columns: [
 				{
@@ -57,8 +60,65 @@ export default class ContactsTableView extends JetView {
 				},
 				"wxi-pencil": (event, id) => {
 					this.popup.showPopup(id);
+					this.setContactFieldSettings(id);
 				}
 			}
 		};
+
+		const addActivityButton = {
+			view: "button",
+			type: "icon",
+			icon: "wxi-plus",
+			label: "Add activity",
+			width: 200,
+			css: "webix_primary",
+			click: () => {
+				const selectedItemId = this.getParam("id", true);
+				this.popup.showPopup();
+				this.setContactFieldSettings(selectedItemId);
+			}
+		};
+
+		return {
+			rows: [
+				activitiesTable,
+				{
+					cols: [
+						{},
+						addActivityButton
+					]
+				}
+			]
+		};
+	}
+
+	init() {
+		this.activitiesTable = this.$$("activitiesTable");
+		this.activitiesTable.sync(activities);
+		this.popup = this.ui(PopupView);
+	}
+
+	urlChange() {
+		webix.promise.all([
+			contacts.waitData,
+			activities.waitData,
+			activitiesTypes.waitData
+		]).then(() => {
+			const currentId = this.getParam("id", true);
+			if (currentId && contacts.exists(currentId)) {
+				activities.filter(obj => obj.ContactID.toString() === currentId);
+			}
+		});
+	}
+
+	setContactFieldSettings(id) {
+		const contactField = this.popup.$$("contact");
+
+		if (!contactField._settings.value) {
+			contactField._settings.value = id;
+		}
+
+		contactField._settings.readonly = true;
+		contactField.refresh();
 	}
 }

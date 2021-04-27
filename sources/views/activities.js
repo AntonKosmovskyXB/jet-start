@@ -96,6 +96,7 @@ export default class ActivitiesView extends JetView {
 
 	init() {
 		this.$$("activitiesTable").sync(activities);
+		activities.filter();
 		this.popup = this.ui(PopupView);
 	}
 }

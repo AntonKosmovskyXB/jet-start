@@ -167,7 +167,7 @@ export default class ContactsFormView extends JetView {
 
 	showForm(id) {
 		if (id && contacts.exists(id)) {
-			const currentItem = webix.copy(contacts.getItem(id));
+			const currentItem = contacts.getItem(id);
 			this.form.setValues(currentItem);
 		}
 
