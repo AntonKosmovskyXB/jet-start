@@ -4,6 +4,7 @@ import contacts from "../models/contacts";
 import statuses from "../models/statuses";
 import ContactsTableView from "./contactsTable";
 
+
 export default class ContactInfoView extends JetView {
 	config() {
 		const userInfoTemplate = {

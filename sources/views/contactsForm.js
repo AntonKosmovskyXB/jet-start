@@ -134,7 +134,7 @@ export default class ContactsFormView extends JetView {
 					width: 150,
 					css: "webix_primary",
 					click: () => {
-						this.contactsView.list.select(contacts.getFirstId());
+						this.contactsList.select(contacts.getFirstId());
 						this.closeForm();
 					}
 				},
@@ -162,7 +162,7 @@ export default class ContactsFormView extends JetView {
 		this.saveButton = this.$$("saveButton");
 		this.cancelButton = this.$$("cancelButton");
 		this.form = this.$$("contactsForm");
-		this.contactsView = this.getParentView();
+		this.contactsList = this.getParentView().list;
 	}
 
 	showForm(id) {
@@ -188,7 +188,7 @@ export default class ContactsFormView extends JetView {
 
 			else {
 				contacts.add(newItem);
-				this.contactsView.list.select(newItem.id);
+				this.contactsList.select(newItem.id);
 			}
 
 			this.closeForm();
