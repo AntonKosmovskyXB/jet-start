@@ -113,6 +113,53 @@ export default class ContactsFormView extends JetView {
 							label: "Birthday",
 							required: true,
 							invalidMessage: "Field should not be empty"
+						},
+						{
+							cols: [
+								{
+									localId: "contactPhoto",
+									width: 200,
+									borderless: true,
+									template: obj => `<div class="user-photo"><img src=${obj.Photo || "./sources/styles/Person.jpg"} 
+									alt="user-photo"></div>`
+								},
+								{
+									view: "toolbar",
+									borderless: true,
+									rows: [
+										{},
+										{
+											view: "uploader",
+											localId: "photoUploader",
+											value: "Change photo",
+											link: "contactPhoto",
+											autosend: false,
+											on: {
+												onBeforeFileAdd: (obj) => {
+													const reader = new FileReader();
+													reader.readAsDataURL(obj.file);
+													reader.onloadend = () => {
+														this.contactPhoto.setValues({Photo: reader.result});
+													};
+													return false;
+												}
+											}
+										},
+										{
+											view: "button",
+											value: "Delete photo",
+											css: "webix_primary",
+											click: () => {
+												webix.confirm({
+													text: "Are you sure that you want to delete photo?"
+												}).then(() => {
+													this.contactPhoto.setValues({Photo: ""});
+												});
+											}
+										}
+									]
+								}
+							]
 						}
 					]
 				}
@@ -163,6 +210,7 @@ export default class ContactsFormView extends JetView {
 		this.cancelButton = this.$$("cancelButton");
 		this.form = this.$$("contactsForm");
 		this.contactsList = this.getParentView().list;
+		this.contactPhoto = this.$$("contactPhoto");
 	}
 
 	showForm(id) {

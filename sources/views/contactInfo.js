@@ -13,7 +13,7 @@ export default class ContactInfoView extends JetView {
 			template: obj => `<h2 class="user-name">${obj.value || "Unknown"}</h2>
 			<div class='user-main-info'>
 				<div class="user-photo-area">
-					<img src="./sources/styles/Person.jpg" class="user-photo">
+					<div class="user-photo"><img src= ${obj.Photo || "./sources/styles/Person.jpg"}></div>
 					<div class="status align-center">Status: ${obj.Status || "Unknown"}</div>
 				</div>
 				<div class="first-info-column">
