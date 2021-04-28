@@ -9,7 +9,7 @@ export default class ContactInfoView extends JetView {
 	config() {
 		const userInfoTemplate = {
 			type: "clean",
-			localId: "userInfo",
+			localId: "contactInfo",
 			template: obj => `<h2 class="user-name">${obj.value || "Unknown"}</h2>
 			<div class='user-main-info'>
 				<div class="user-photo-area">
@@ -100,7 +100,7 @@ export default class ContactInfoView extends JetView {
 			const currentUser = contacts.getItem(currentId);
 			currentUser.Status = statuses.getItem(currentUser.StatusID).Value;
 			if (currentId && contacts.exists(currentId)) {
-				this.$$("userInfo").parse(contacts.getItem(currentId));
+				this.$$("contactInfo").parse(contacts.getItem(currentId));
 			}
 		});
 	}

@@ -91,7 +91,7 @@ export default class ContactsFormView extends JetView {
 							name: "Email",
 							label: "Email",
 							required: true,
-							invalidMessage: "Field should not be empty"
+							invalidMessage: "Please, enter correct email address"
 						},
 						{
 							view: "text",
@@ -166,6 +166,11 @@ export default class ContactsFormView extends JetView {
 			],
 			rules: {
 				Email: webix.rules.isEmail
+			},
+			on: {
+				onItemClick: () => {
+					this.form.clearValidation();
+				}
 			}
 		};
 
@@ -181,8 +186,11 @@ export default class ContactsFormView extends JetView {
 					width: 150,
 					css: "webix_primary",
 					click: () => {
-						this.contactsList.select(contacts.getFirstId());
-						this.closeForm();
+						webix.confirm({
+							text: "Are you sure that you want to close contact editor?"
+						}).then(() => {
+							this.closeForm();
+						});
 					}
 				},
 				{

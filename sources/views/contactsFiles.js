@@ -27,7 +27,7 @@ export default class ContactsFilesView extends JetView {
 				{
 					id: "sizetext",
 					header: "Size",
-					sort: "int"
+					sort: this.sortFileSizes
 				},
 				{template: "<span class='webix_icon wxi-trash'></span>"}
 			],
@@ -85,7 +85,40 @@ export default class ContactsFilesView extends JetView {
 	urlChange() {
 		contacts.waitData.then(() => {
 			const currentId = this.getParam("id", true);
-			files.filter(obj => obj.ContactID.toString() === currentId.toString());
+			if (currentId && contacts.exists(currentId)) {
+				files.filter(obj => obj.ContactID.toString() === currentId.toString());
+			}
 		});
+	}
+
+	sortFileSizes(a, b) {
+		let first = parseFloat(a.sizetext);
+		let second = parseFloat(b.sizetext);
+
+		if (a.sizetext.includes("Kb")) {
+			first *= 1024;
+		}
+
+		if (b.sizetext.includes("Kb")) {
+			second *= 1024;
+		}
+
+		if (a.sizetext.includes("Mb")) {
+			first *= 1024 * 1024;
+		}
+
+		if (b.sizetext.includes("Mb")) {
+			second *= 1024 * 1024;
+		}
+
+		if (a.sizetext.includes("Gb")) {
+			first *= 1024 * 1024 * 1024;
+		}
+
+		if (b.sizetext.includes("Gb")) {
+			second *= 1024 * 1024 * 1024;
+		}
+
+		return first > second ? 1 : -1;
 	}
 }

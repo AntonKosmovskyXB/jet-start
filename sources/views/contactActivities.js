@@ -54,8 +54,8 @@ export default class ContactActivitiesView extends JetView {
 						text: "Are you sure that you want to remove this activity item?"
 					}).then(() => {
 						activities.remove(id);
+						this.app.callEvent("onDatatableChange");
 					});
-					this.popup.closePopup();
 					return false;
 				},
 				"wxi-pencil": (event, id) => {
@@ -97,6 +97,10 @@ export default class ContactActivitiesView extends JetView {
 		this.activitiesTable.sync(activities);
 		this.popup = this.ui(PopupView);
 		this.contactsList = this.getParentView().getParentView().getParentView().list;
+		this.on(this.app, "onDatatableChange", (state) => {
+			this.activitiesTable.setState(state);
+			this.activitiesTable.filterByAll();
+		});
 	}
 
 	urlChange() {
