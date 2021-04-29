@@ -64,7 +64,7 @@ export default class ContactInfoView extends JetView {
 								const currentId = this.getParam("id", true);
 								this.contactsView.show("./contactsForm").then(() => {
 									const contactsFormView = this.contactsView.getSubView();
-									contactsFormView.showForm(currentId);
+									contactsFormView.updateForm(currentId);
 								});
 							}
 						}

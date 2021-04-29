@@ -15,10 +15,27 @@ export default class ContactsView extends JetView {
 				height: 45
 			},
 			on: {
-				onAfterSelect: () => {
-					this.setUrlParam(this.list.getSelectedId());
-					this.app.callEvent("onListSelectChange", [this.list.getSelectedId()]);
+				onBeforeSelect: (id) => {
+					const contactsForm = this.getSubView().form;
+					if (contactsForm && contactsForm.isDirty() && contactsForm.getValues().id) {
+						webix.confirm({
+							text: "Are you sure that you want to close contact editor? Data will not be saved"
+						}).then(() => {
+							contactsForm.clear();
+							contactsForm.clearValidation();
+							this.list.select(id);
+						});
+						return false;
+					}
+				},
+				onAfterSelect: (id) => {
+					const contactsFormView = this.getSubView();
+					this.setUrlParam(id);
+					if (contactsFormView.form) {
+						contactsFormView.updateForm(id);
+					}
 				}
+
 			}
 		};
 
@@ -31,23 +48,11 @@ export default class ContactsView extends JetView {
 			label: "Add contact",
 			css: "webix_primary",
 			click: () => {
-				const contactsForm = this.getSubView().form;
-				if (contactsForm) {
-					webix.confirm({
-						text: "Are you sure that you want to close contact editor? Data will not be saved"
-					}).then(
-						() => {
-							contactsForm.clear();
-							contactsForm.clearValidation();
-							this.getSubView().showForm();
-						}
-					);
-				}
-				else {
-					this.show("./contactsForm").then(() => {
-						this.getSubView().showForm();
-					});
-				}
+				this.show("./contactsForm").then(() => {
+					this.getSubView().form.clear();
+					this.getSubView().form.clearValidation();
+					this.getSubView().updateForm();
+				});
 			}
 		};
 

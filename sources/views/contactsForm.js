@@ -218,38 +218,17 @@ export default class ContactsFormView extends JetView {
 		this.saveButton = this.$$("saveButton");
 		this.cancelButton = this.$$("cancelButton");
 		this.contactPhoto = this.$$("contactPhoto");
-		this.on(this.app, "onListSelectChange", (id) => {
-			if (this.form.isDirty()) {
-				webix.confirm({
-					text: "Are you sure that you want to close contact editor? Data will not be saved"
-				}).then(
-					() => {
-						this.form.clear();
-						this.form.clearValidation();
-						this.showForm(id);
-					},
-					() => {
-						const oldId = this.form.getValues().id;
-						this.contactsList.blockEvent();
-						this.contactsList.select(oldId);
-						this.contactsList.unblockEvent();
-					}
-				);
-			}
-
-			else {
-				this.showForm(id);
-			}
-		});
 	}
 
-	showForm(id) {
+	updateForm(id) {
 		if (id && contacts.exists(id)) {
 			const currentItem = contacts.getItem(id);
 			this.form.setValues(currentItem);
 		}
 
 		else {
+			this.form.clear();
+			this.form.clearValidation();
 			this.headerLabel.config.label = "Add new contact";
 			this.headerLabel.refresh();
 			this.saveButton.setValue("Add");
