@@ -54,7 +54,7 @@ export default class ContactActivitiesView extends JetView {
 						text: "Are you sure that you want to remove this activity item?"
 					}).then(() => {
 						activities.remove(id);
-						this.app.callEvent("onDatatableChange");
+						this.app.callEvent("onDatatableChange", [this.activitiesTable.getState()]);
 					});
 					return false;
 				},

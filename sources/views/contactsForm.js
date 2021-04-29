@@ -16,6 +16,7 @@ export default class ContactsFormView extends JetView {
 		const contactsForm = {
 			view: "form",
 			localId: "contactsForm",
+			borderless: true,
 			cols: [
 				{
 					margin: 30,
@@ -81,7 +82,6 @@ export default class ContactsFormView extends JetView {
 						}
 					]
 				},
-				{},
 				{
 					margin: 30,
 					width: 350,
@@ -132,7 +132,6 @@ export default class ContactsFormView extends JetView {
 											view: "uploader",
 											localId: "photoUploader",
 											value: "Change photo",
-											link: "contactPhoto",
 											autosend: false,
 											on: {
 												onBeforeFileAdd: (obj) => {
@@ -213,12 +212,35 @@ export default class ContactsFormView extends JetView {
 	}
 
 	init() {
+		this.contactsList = this.getParentView().list;
+		this.form = this.$$("contactsForm");
 		this.headerLabel = this.$$("headerLabel");
 		this.saveButton = this.$$("saveButton");
 		this.cancelButton = this.$$("cancelButton");
-		this.form = this.$$("contactsForm");
-		this.contactsList = this.getParentView().list;
 		this.contactPhoto = this.$$("contactPhoto");
+		this.on(this.app, "onListSelectChange", (id) => {
+			if (this.form.isDirty()) {
+				webix.confirm({
+					text: "Are you sure that you want to close contact editor? Data will not be saved"
+				}).then(
+					() => {
+						this.form.clear();
+						this.form.clearValidation();
+						this.showForm(id);
+					},
+					() => {
+						const oldId = this.form.getValues().id;
+						this.contactsList.blockEvent();
+						this.contactsList.select(oldId);
+						this.contactsList.unblockEvent();
+					}
+				);
+			}
+
+			else {
+				this.showForm(id);
+			}
+		});
 	}
 
 	showForm(id) {

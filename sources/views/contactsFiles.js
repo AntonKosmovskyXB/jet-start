@@ -50,7 +50,6 @@ export default class ContactsFilesView extends JetView {
 			icon: "mdi mdi-cloud-upload",
 			label: "Upload file",
 			css: "webix_primary",
-			link: "filesTable",
 			autosend: false,
 			on: {
 				onBeforeFileAdd: (obj) => {

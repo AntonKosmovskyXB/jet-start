@@ -31,9 +31,23 @@ export default class ContactsView extends JetView {
 			label: "Add contact",
 			css: "webix_primary",
 			click: () => {
-				this.show("./contactsForm").then(() => {
-					this.getSubView().showForm();
-				});
+				const contactsForm = this.getSubView().form;
+				if (contactsForm) {
+					webix.confirm({
+						text: "Are you sure that you want to close contact editor? Data will not be saved"
+					}).then(
+						() => {
+							contactsForm.clear();
+							contactsForm.clearValidation();
+							this.getSubView().showForm();
+						}
+					);
+				}
+				else {
+					this.show("./contactsForm").then(() => {
+						this.getSubView().showForm();
+					});
+				}
 			}
 		};
 

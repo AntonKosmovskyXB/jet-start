@@ -13,7 +13,12 @@ export default class ContactsTableView extends JetView {
 					options: [
 						{value: "Activities", id: "activitiesTable"},
 						{value: "Files", id: "filesTable"}
-					]
+					],
+					on: {
+						onChange: (table) => {
+							this.$$(table).show();
+						}
+					}
 				},
 				{
 					view: "multiview",
@@ -24,11 +29,5 @@ export default class ContactsTableView extends JetView {
 				}
 			]
 		};
-	}
-
-	init() {
-		this.$$("tableTabbar").attachEvent("onChange", (table) => {
-			this.$$(table).show();
-		});
 	}
 }

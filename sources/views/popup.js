@@ -151,7 +151,7 @@ export default class PopupView extends JetView {
 			}
 
 			this.closePopup();
-			this.app.callEvent("onDatatableChange");
+			this.app.callEvent("onDatatableChange", [this.getParentView().activitiesTable.getState()]);
 		}
 	}
 
