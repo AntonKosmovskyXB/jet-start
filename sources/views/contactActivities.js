@@ -73,9 +73,8 @@ export default class ContactActivitiesView extends JetView {
 			width: 200,
 			css: "webix_primary",
 			click: () => {
-				const selectedItemId = this.contactsList.getSelectedId();
 				this.popup.showPopup();
-				this.setContactFieldSettings(selectedItemId);
+				this.setContactFieldSettings(this.selectedItemId);
 			}
 		};
 
@@ -96,10 +95,12 @@ export default class ContactActivitiesView extends JetView {
 		this.activitiesTable = this.$$("activitiesTable");
 		this.activitiesTable.sync(activities);
 		this.popup = this.ui(PopupView);
-		this.contactsList = this.getParentView().getParentView().getParentView().list;
 		this.on(this.app, "onDatatableChange", (state) => {
 			this.activitiesTable.setState(state);
 			this.activitiesTable.filterByAll();
+		});
+		this.on(this.app, "onListSelectChange", (id) => {
+			this.selectedItemId = id;
 		});
 	}
 

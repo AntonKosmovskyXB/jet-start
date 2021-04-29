@@ -17,6 +17,7 @@ export default class ContactsView extends JetView {
 			on: {
 				onAfterSelect: () => {
 					this.setUrlParam(this.list.getSelectedId());
+					this.app.callEvent("onListSelectChange", [this.list.getSelectedId()]);
 				}
 			}
 		};

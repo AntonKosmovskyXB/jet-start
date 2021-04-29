@@ -55,7 +55,7 @@ export default class ContactsFilesView extends JetView {
 			on: {
 				onBeforeFileAdd: (obj) => {
 					obj.ChangeDate = obj.file.lastModifiedDate;
-					obj.ContactID = this.contactsList.getSelectedId();
+					obj.ContactID = this.selectedItemId;
 					files.add(obj);
 					return false;
 				}
@@ -79,7 +79,9 @@ export default class ContactsFilesView extends JetView {
 	init() {
 		this.filesTable = this.$$("filesTable");
 		this.filesTable.sync(files);
-		this.contactsList = this.getParentView().getParentView().getParentView().list;
+		this.on(this.app, "onListSelectChange", (id) => {
+			this.selectedItemId = id;
+		});
 	}
 
 	urlChange() {
