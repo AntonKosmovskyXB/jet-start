@@ -53,13 +53,13 @@ export default class ContactsView extends JetView {
 					webix.confirm({
 						text: "Are you sure that you want to close contact editor? Data will not be saved"
 					}).then(() => {
-						this.updateForm();
+						this.prepareForm();
 					});
 					return false;
 				}
 
 				this.show("./contactsForm").then(() => {
-					this.updateForm();
+					this.prepareForm();
 				});
 				return true;
 			}
@@ -99,7 +99,7 @@ export default class ContactsView extends JetView {
 	}
 
 
-	updateForm() {
+	prepareForm() {
 		const contactsForm = this.getSubView();
 		contactsForm.updateForm();
 	}
