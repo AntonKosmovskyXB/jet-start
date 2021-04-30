@@ -167,8 +167,13 @@ export default class ContactsFormView extends JetView {
 			rules: {
 				Email: webix.rules.isEmail,
 				Phone: (value) => {
-					const validValues = /\d/g;
-					return validValues.test(value);
+					const numberResult = /\d/g.test(value);
+					const spacesResult = /\s/g.test(value);
+					const lettersResult = /[A-Za-z]/g.test(value);
+					if (numberResult && spacesResult && !lettersResult) {
+						return true;
+					}
+					return false;
 				}
 			},
 			on: {
@@ -259,6 +264,7 @@ export default class ContactsFormView extends JetView {
 		const validationResult = this.form.validate();
 		if (validationResult) {
 			const newItem = this.form.getValues();
+			this.clearForm();
 			if (newItem.id) {
 				contacts.updateItem(newItem.id, newItem);
 			}
@@ -268,7 +274,6 @@ export default class ContactsFormView extends JetView {
 				this.contactsList.select(newItem.id);
 			}
 
-			this.clearForm();
 			this.show("./contactInfo");
 		}
 	}
