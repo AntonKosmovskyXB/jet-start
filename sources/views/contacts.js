@@ -101,8 +101,6 @@ export default class ContactsView extends JetView {
 
 	updateForm() {
 		const contactsForm = this.getSubView();
-		contactsForm.form.clear();
-		contactsForm.form.clearValidation();
 		contactsForm.updateForm();
 	}
 
