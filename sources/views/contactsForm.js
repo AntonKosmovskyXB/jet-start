@@ -251,6 +251,9 @@ export default class ContactsFormView extends JetView {
 	}
 
 	updateForm(id) {
+		this.form.clear();
+		this.form.clearValidation();
+
 		if (id && contacts.exists(id)) {
 			const currentItem = contacts.getItem(id);
 			this.form.setValues(currentItem);
