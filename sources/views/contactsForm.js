@@ -29,25 +29,19 @@ export default class ContactsFormView extends JetView {
 							view: "text",
 							name: "FirstName",
 							label: "First Name",
-							required: true,
-							invalidMessage: "Field should not be empty",
-							labelWidth
+							invalidMessage: "Field should not be empty"
 						},
 						{
 							view: "text",
 							name: "LastName",
 							label: "Last Name",
-							required: true,
-							invalidMessage: "Field should not be empty",
-							labelWidth
+							invalidMessage: "Field should not be empty"
 						},
 						{
 							view: "datepicker",
 							name: "StartDate",
 							label: "Joining Date",
-							required: true,
-							invalidMessage: "Field should not be empty",
-							labelWidth
+							invalidMessage: "Field should not be empty"
 						},
 						{
 							view: "richselect",
@@ -59,36 +53,32 @@ export default class ContactsFormView extends JetView {
 									template: "#Value#"
 								}
 							},
-							required: true,
-							invalidMessage: "Field should not be empty",
-							labelWidth
+							invalidMessage: "Field should not be empty"
 						},
 						{
 							view: "text",
 							name: "Job",
 							label: "Job",
-							labelWidth
+							required: false
 						},
 						{
 							view: "text",
 							name: "Company",
 							label: "Company",
-							required: true,
-							invalidMessage: "Field should not be empty",
-							labelWidth
+							invalidMessage: "Field should not be empty"
 						},
 						{
 							view: "text",
 							name: "Website",
 							label: "Website",
-							labelWidth
+							required: false
 
 						},
 						{
 							view: "text",
 							name: "Address",
 							label: "Address",
-							labelWidth
+							required: false
 						}
 					]
 				},
@@ -101,33 +91,25 @@ export default class ContactsFormView extends JetView {
 							view: "text",
 							name: "Email",
 							label: "Email",
-							required: true,
-							invalidMessage: "Please, enter correct email address",
-							labelWidth
+							invalidMessage: "Please, enter correct email address"
 						},
 						{
 							view: "text",
 							name: "Skype",
 							label: "Skype",
-							required: true,
-							invalidMessage: "Field should not be empty",
-							labelWidth
+							invalidMessage: "Field should not be empty"
 						},
 						{
 							view: "text",
 							name: "Phone",
 							label: "Phone",
-							required: true,
-							invalidMessage: "Please, enter correct phone number",
-							labelWidth
+							invalidMessage: "Please, enter correct phone number"
 						},
 						{
 							view: "datepicker",
 							name: "Birthday",
 							label: "Birthday",
-							required: true,
-							invalidMessage: "Field should not be empty",
-							labelWidth
+							invalidMessage: "Field should not be empty"
 						},
 						{
 							cols: [
@@ -178,6 +160,10 @@ export default class ContactsFormView extends JetView {
 					]
 				}
 			],
+			elementsConfig: {
+				labelWidth,
+				required: true
+			},
 			rules: {
 				Email: webix.rules.isEmail,
 				Phone: webix.rules.isNumber
@@ -206,8 +192,9 @@ export default class ContactsFormView extends JetView {
 							text: "Are you sure that you want to close contact editor?"
 						}).then(() => {
 							if (this.saveButton.getValue() === "Add") {
-								this.contactsList.select(contacts.getFirstId());
+								this.app.callEvent("onSelectFirst");
 							}
+							this.app.callEvent("onCloseForm");
 							this.clearForm();
 							this.show("./contactInfo");
 						});
@@ -243,11 +230,23 @@ export default class ContactsFormView extends JetView {
 	}
 
 	init() {
-		this.contactsList = this.getParentView().list;
 		this.form = this.$$("contactsForm");
 		this.headerLabel = this.$$("headerLabel");
 		this.saveButton = this.$$("saveButton");
 		this.contactPhoto = this.$$("contactPhoto");
+		this.app.callEvent("onFormInit", [this.form]);
+		this.on(this.app, "onShowForm", (id) => {
+			if (id) {
+				this.updateForm(id);
+			}
+
+			else {
+				this.updateForm();
+			}
+		});
+		this.on(this.app, "onClearForm", () => {
+			this.clearForm();
+		});
 	}
 
 	updateForm(id) {
@@ -280,7 +279,6 @@ export default class ContactsFormView extends JetView {
 
 			else {
 				contacts.add(newItem);
-				this.contactsList.select(newItem.id);
 			}
 
 			this.show("./contactInfo");

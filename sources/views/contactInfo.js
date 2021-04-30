@@ -42,13 +42,11 @@ export default class ContactInfoView extends JetView {
 							css: "user-info-button",
 							width: 110,
 							click: () => {
-								const contactsList = this.contactsView.list;
-								const selectedItem = contactsList.getSelectedItem();
 								webix.confirm({
 									text: "Are you sure that you want to remove this contact?"
 								}).then(() => {
-									contacts.remove(selectedItem.id);
-									contactsList.select(contactsList.getFirstId());
+									contacts.remove(this.getParam("id", true));
+									this.app.callEvent("onSelectFirst");
 								});
 								return false;
 							}
@@ -61,11 +59,8 @@ export default class ContactInfoView extends JetView {
 							css: "user-info-button",
 							width: 110,
 							click: () => {
-								const currentId = this.getParam("id", true);
-								this.contactsView.show("./contactsForm").then(() => {
-									const contactsFormView = this.contactsView.getSubView();
-									contactsFormView.updateForm(currentId);
-								});
+								const id = this.getParam("id", true);
+								this.app.callEvent("onEditClick", [id]);
 							}
 						}
 					]
@@ -85,10 +80,6 @@ export default class ContactInfoView extends JetView {
 				{$subview: ContactsTableView}
 			]
 		};
-	}
-
-	init() {
-		this.contactsView = this.getParentView();
 	}
 
 	urlChange() {
