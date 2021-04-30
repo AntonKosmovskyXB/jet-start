@@ -16,17 +16,18 @@ export default class ContactsView extends JetView {
 			},
 			on: {
 				onBeforeSelect: (id) => {
-					const contactsForm = this.getSubView().form;
-					if (contactsForm && contactsForm.isDirty() && contactsForm.getValues().id) {
+					const contactsFormView = this.getSubView();
+					if (contactsFormView.form && contactsFormView.form.isDirty()
+					&& contactsFormView.form.getValues().id) {
 						webix.confirm({
 							text: "Are you sure that you want to close contact editor? Data will not be saved"
 						}).then(() => {
-							contactsForm.clear();
-							contactsForm.clearValidation();
+							contactsFormView.clearForm();
 							this.list.select(id);
 						});
 						return false;
 					}
+					return true;
 				},
 				onAfterSelect: (id) => {
 					const contactsFormView = this.getSubView();
@@ -34,8 +35,8 @@ export default class ContactsView extends JetView {
 					if (contactsFormView.form) {
 						contactsFormView.updateForm(id);
 					}
+					this.app.callEvent("onListSelectChange", [this.list.getSelectedId()]);
 				}
-
 			}
 		};
 
@@ -48,11 +49,24 @@ export default class ContactsView extends JetView {
 			label: "Add contact",
 			css: "webix_primary",
 			click: () => {
+				const currentSubview = this.getSubView();
+				if (currentSubview.form && currentSubview.form.isDirty()) {
+					webix.confirm({
+						text: "Are you sure that you want to close contact editor? Data will not be saved"
+					}).then(() => {
+						currentSubview.clearForm();
+						currentSubview.updateForm();
+					});
+					return false;
+				}
+
 				this.show("./contactsForm").then(() => {
-					this.getSubView().form.clear();
-					this.getSubView().form.clearValidation();
-					this.getSubView().updateForm();
+					const contactsFormView = this.getSubView();
+					contactsFormView.form.clear();
+					contactsFormView.form.clearValidation();
+					contactsFormView.updateForm();
 				});
+				return true;
 			}
 		};
 

@@ -20,7 +20,8 @@ export default class ContactsFormView extends JetView {
 			cols: [
 				{
 					margin: 30,
-					width: 350,
+					minWidth: 350,
+					maxWidth: 600,
 					rows: [
 						{
 							view: "text",
@@ -40,7 +41,6 @@ export default class ContactsFormView extends JetView {
 							view: "datepicker",
 							name: "StartDate",
 							label: "Joining Date",
-							width: 400,
 							required: true,
 							invalidMessage: "Field should not be empty"
 						},
@@ -84,7 +84,8 @@ export default class ContactsFormView extends JetView {
 				},
 				{
 					margin: 30,
-					width: 350,
+					minWidth: 350,
+					maxWidth: 600,
 					rows: [
 						{
 							view: "text",
@@ -105,7 +106,7 @@ export default class ContactsFormView extends JetView {
 							name: "Phone",
 							label: "Phone",
 							required: true,
-							invalidMessage: "Field should not be empty"
+							invalidMessage: "Please, enter correct phone number"
 						},
 						{
 							view: "datepicker",
@@ -164,7 +165,11 @@ export default class ContactsFormView extends JetView {
 				}
 			],
 			rules: {
-				Email: webix.rules.isEmail
+				Email: webix.rules.isEmail,
+				Phone: (value) => {
+					const validValues = /\d/g;
+					return validValues.test(value);
+				}
 			},
 			on: {
 				onItemClick: () => {
@@ -175,9 +180,10 @@ export default class ContactsFormView extends JetView {
 
 		const formButtons = {
 			view: "toolbar",
+			css: "form-toolbar",
 			margin: 10,
+			borderless: true,
 			elements: [
-				{},
 				{
 					view: "button",
 					localId: "cancelButton",
@@ -188,7 +194,11 @@ export default class ContactsFormView extends JetView {
 						webix.confirm({
 							text: "Are you sure that you want to close contact editor?"
 						}).then(() => {
-							this.closeForm();
+							if (this.saveButton.getValue() === "Add") {
+								this.contactsList.select(contacts.getFirstId());
+							}
+							this.clearForm();
+							this.show("./contactInfo");
 						});
 					}
 				},
@@ -207,7 +217,17 @@ export default class ContactsFormView extends JetView {
 
 		return {
 			type: "clean",
-			rows: [contactsFormHeaderLabel, contactsForm, {}, formButtons]
+			rows: [
+				contactsFormHeaderLabel,
+				contactsForm,
+				{
+					cols: [
+						{},
+						formButtons
+					]
+				},
+				{}
+			]
 		};
 	}
 
@@ -216,7 +236,6 @@ export default class ContactsFormView extends JetView {
 		this.form = this.$$("contactsForm");
 		this.headerLabel = this.$$("headerLabel");
 		this.saveButton = this.$$("saveButton");
-		this.cancelButton = this.$$("cancelButton");
 		this.contactPhoto = this.$$("contactPhoto");
 	}
 
@@ -224,11 +243,12 @@ export default class ContactsFormView extends JetView {
 		if (id && contacts.exists(id)) {
 			const currentItem = contacts.getItem(id);
 			this.form.setValues(currentItem);
+			this.headerLabel.config.label = "Edit contact";
+			this.headerLabel.refresh();
+			this.saveButton.setValue("Save");
 		}
 
 		else {
-			this.form.clear();
-			this.form.clearValidation();
 			this.headerLabel.config.label = "Add new contact";
 			this.headerLabel.refresh();
 			this.saveButton.setValue("Add");
@@ -248,13 +268,13 @@ export default class ContactsFormView extends JetView {
 				this.contactsList.select(newItem.id);
 			}
 
-			this.closeForm();
+			this.clearForm();
+			this.show("./contactInfo");
 		}
 	}
 
-	closeForm() {
+	clearForm() {
 		this.form.clear();
 		this.form.clearValidation();
-		this.show("./contactInfo");
 	}
 }

@@ -75,12 +75,15 @@
     height: 230px;
 }
 
+.webix_view .webix_toolbar .webix_layout_toolbar {
+    margin-left: -9px;
+}
+
 .user-main-info {
     display: flex;
     justify-content: left;
     height: 500px;
 }
-
 
 .first-info-column {
     margin-left: 40px;
@@ -110,4 +113,8 @@
 .header-label .webix_el_box {
     font-size: 24px;
     margin-left: 20px;
+}
+
+.webix_layout_line .form-toolbar {
+    margin-left: -20px !important;
 }
