@@ -35,7 +35,6 @@ export default class ContactsView extends JetView {
 					if (contactsFormView.form) {
 						contactsFormView.updateForm(id);
 					}
-					this.app.callEvent("onListSelectChange", [this.list.getSelectedId()]);
 				}
 			}
 		};
@@ -80,6 +79,9 @@ export default class ContactsView extends JetView {
 		contacts.waitData.then(() => {
 			this.show("./contactInfo");
 		});
+		webix.dp(contacts).attachEvent("onAfterSave", (response) => {
+			this.setParam("id", response.id, true);
+		});
 	}
 
 	urlChange() {
@@ -95,6 +97,7 @@ export default class ContactsView extends JetView {
 			}
 		});
 	}
+
 
 	updateForm() {
 		const contactsForm = this.getSubView();

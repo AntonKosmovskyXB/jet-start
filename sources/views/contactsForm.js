@@ -28,21 +28,24 @@ export default class ContactsFormView extends JetView {
 							name: "FirstName",
 							label: "First Name",
 							required: true,
-							invalidMessage: "Field should not be empty"
+							invalidMessage: "Field should not be empty",
+							labelWidth: 100
 						},
 						{
 							view: "text",
 							name: "LastName",
 							label: "Last Name",
 							required: true,
-							invalidMessage: "Field should not be empty"
+							invalidMessage: "Field should not be empty",
+							labelWidth: 100
 						},
 						{
 							view: "datepicker",
 							name: "StartDate",
 							label: "Joining Date",
 							required: true,
-							invalidMessage: "Field should not be empty"
+							invalidMessage: "Field should not be empty",
+							labelWidth: 100
 						},
 						{
 							view: "richselect",
@@ -55,30 +58,35 @@ export default class ContactsFormView extends JetView {
 								}
 							},
 							required: true,
-							invalidMessage: "Field should not be empty"
+							invalidMessage: "Field should not be empty",
+							labelWidth: 100
 						},
 						{
 							view: "text",
 							name: "Job",
-							label: "Job"
+							label: "Job",
+							labelWidth: 100
 						},
 						{
 							view: "text",
 							name: "Company",
 							label: "Company",
 							required: true,
-							invalidMessage: "Field should not be empty"
+							invalidMessage: "Field should not be empty",
+							labelWidth: 100
 						},
 						{
 							view: "text",
 							name: "Website",
-							label: "Website"
+							label: "Website",
+							labelWidth: 100
 
 						},
 						{
 							view: "text",
 							name: "Address",
-							label: "Address"
+							label: "Address",
+							labelWidth: 100
 						}
 					]
 				},
@@ -92,28 +100,32 @@ export default class ContactsFormView extends JetView {
 							name: "Email",
 							label: "Email",
 							required: true,
-							invalidMessage: "Please, enter correct email address"
+							invalidMessage: "Please, enter correct email address",
+							labelWidth: 100
 						},
 						{
 							view: "text",
 							name: "Skype",
 							label: "Skype",
 							required: true,
-							invalidMessage: "Field should not be empty"
+							invalidMessage: "Field should not be empty",
+							labelWidth: 100
 						},
 						{
 							view: "text",
 							name: "Phone",
 							label: "Phone",
 							required: true,
-							invalidMessage: "Please, enter correct phone number"
+							invalidMessage: "Please, enter correct phone number",
+							labelWidth: 100
 						},
 						{
 							view: "datepicker",
 							name: "Birthday",
 							label: "Birthday",
 							required: true,
-							invalidMessage: "Field should not be empty"
+							invalidMessage: "Field should not be empty",
+							labelWidth: 100
 						},
 						{
 							cols: [
@@ -166,15 +178,7 @@ export default class ContactsFormView extends JetView {
 			],
 			rules: {
 				Email: webix.rules.isEmail,
-				Phone: (value) => {
-					const numberResult = /\d/g.test(value);
-					const spacesResult = /\s/g.test(value);
-					const lettersResult = /[A-Za-z]/g.test(value);
-					if (numberResult && spacesResult && !lettersResult) {
-						return true;
-					}
-					return false;
-				}
+				Phone: webix.rules.isNumber
 			},
 			on: {
 				onItemClick: () => {

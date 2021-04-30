@@ -74,7 +74,7 @@ export default class ContactActivitiesView extends JetView {
 			css: "webix_primary",
 			click: () => {
 				this.popup.showPopup();
-				this.setContactFieldSettings(this.selectedItemId);
+				this.setContactFieldSettings(this.getParam("id", true));
 			}
 		};
 
@@ -98,9 +98,6 @@ export default class ContactActivitiesView extends JetView {
 		this.on(this.app, "onDatatableChange", (state) => {
 			this.activitiesTable.setState(state);
 			this.activitiesTable.filterByAll();
-		});
-		this.on(this.app, "onListSelectChange", (id) => {
-			this.selectedItemId = id;
 		});
 	}
 

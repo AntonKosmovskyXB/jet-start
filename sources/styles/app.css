@@ -118,3 +118,8 @@
 .webix_layout_line .form-toolbar {
     margin-left: -20px !important;
 }
+
+.form-label {
+    display: flex;
+    justify-content: space-between;
+}
