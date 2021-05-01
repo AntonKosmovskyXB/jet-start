@@ -234,7 +234,7 @@ export default class ContactsFormView extends JetView {
 		this.headerLabel = this.$$("headerLabel");
 		this.saveButton = this.$$("saveButton");
 		this.contactPhoto = this.$$("contactPhoto");
-		this.app.callEvent("onFormInit", [this.form]);
+		this.on(this.app, "isFormSaved", () => !this.form.isDirty());
 		this.on(this.app, "onShowForm", (id) => {
 			if (id) {
 				this.updateForm(id);
@@ -244,14 +244,10 @@ export default class ContactsFormView extends JetView {
 				this.updateForm();
 			}
 		});
-		this.on(this.app, "onClearForm", () => {
-			this.clearForm();
-		});
 	}
 
 	updateForm(id) {
-		this.form.clear();
-		this.form.clearValidation();
+		this.clearForm();
 
 		if (id && contacts.exists(id)) {
 			const currentItem = contacts.getItem(id);

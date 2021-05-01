@@ -16,12 +16,11 @@ export default class ContactsView extends JetView {
 			},
 			on: {
 				onBeforeSelect: (id) => {
-					if (this.form && this.form.isDirty()) {
+					if (this.app.callEvent("isFormSaved", []) === false) {
 						webix.confirm({
 							text: "Are you sure that you want to close contact editor? Data will not be saved"
 						}).then(() => {
-							this.app.callEvent("onClearForm");
-							this.list.select(id);
+							this.setUrlParam(id);
 						});
 						return false;
 					}
@@ -30,9 +29,7 @@ export default class ContactsView extends JetView {
 				},
 				onAfterSelect: (id) => {
 					this.setUrlParam(id);
-					if (this.form) {
-						this.app.callEvent("onShowForm", [id]);
-					}
+					this.app.callEvent("onShowForm", [id]);
 				}
 			}
 		};
@@ -46,7 +43,7 @@ export default class ContactsView extends JetView {
 			label: "Add contact",
 			css: "webix_primary",
 			click: () => {
-				if (this.form && this.form.isDirty()) {
+				if (this.app.callEvent("isFormSaved", []) === false) {
 					webix.confirm({
 						text: "Are you sure that you want to close contact editor? Data will not be saved"
 					}).then(() => {
@@ -89,14 +86,6 @@ export default class ContactsView extends JetView {
 
 		this.on(this.app, "onSelectFirst", () => {
 			this.list.select(contacts.getFirstId());
-		});
-
-		this.on(this.app, "onFormInit", (form) => {
-			this.form = form;
-		});
-
-		this.on(this.app, "onCloseForm", () => {
-			this.form = null;
 		});
 	}
 
