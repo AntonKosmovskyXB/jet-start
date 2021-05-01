@@ -110,6 +110,7 @@ export default class ContactActivitiesView extends JetView {
 			const currentId = this.getParam("id", true);
 			if (currentId && contacts.exists(currentId)) {
 				activities.filter(obj => obj.ContactID.toString() === currentId.toString());
+				this.activitiesTable.filterByAll();
 			}
 		});
 	}

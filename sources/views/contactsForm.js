@@ -167,11 +167,6 @@ export default class ContactsFormView extends JetView {
 			rules: {
 				Email: webix.rules.isEmail,
 				Phone: webix.rules.isNumber
-			},
-			on: {
-				onItemClick: () => {
-					this.form.clearValidation();
-				}
 			}
 		};
 
