@@ -41,6 +41,7 @@ export default class PopupView extends JetView {
 					{
 						view: "richselect",
 						name: "ContactID",
+						localId: "contact",
 						label: "Contact",
 						required: true,
 						options: contacts,
@@ -150,6 +151,7 @@ export default class PopupView extends JetView {
 			}
 
 			this.closePopup();
+			this.app.callEvent("onDatatableChange", [this.getParentView().activitiesTable.getState()]);
 		}
 	}
 

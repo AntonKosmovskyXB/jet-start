@@ -67,7 +67,16 @@
 
 .user-photo {
     width: 200px;
-    height: 200px;
+    height: 230px;
+}
+
+.user-photo img {
+    width: 200px;
+    height: 230px;
+}
+
+.webix_view .webix_toolbar .webix_layout_toolbar {
+    margin-left: -9px;
 }
 
 .user-main-info {
@@ -75,7 +84,6 @@
     justify-content: left;
     height: 500px;
 }
-
 
 .first-info-column {
     margin-left: 40px;
@@ -100,4 +108,18 @@
 
 .contacts-list .webix_icon {
     font-size: 40px;
+}
+
+.header-label .webix_el_box {
+    font-size: 24px;
+    margin-left: 20px;
+}
+
+.webix_layout_line .form-toolbar {
+    margin-left: -20px !important;
+}
+
+.form-label {
+    display: flex;
+    justify-content: space-between;
 }

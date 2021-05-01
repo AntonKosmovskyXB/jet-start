@@ -2,16 +2,18 @@ import {JetView} from "webix-jet";
 
 import contacts from "../models/contacts";
 import statuses from "../models/statuses";
+import ContactsTableView from "./contactsTable";
+
 
 export default class ContactInfoView extends JetView {
 	config() {
 		const userInfoTemplate = {
 			type: "clean",
-			localId: "userInfo",
+			localId: "contactInfo",
 			template: obj => `<h2 class="user-name">${obj.value || "Unknown"}</h2>
 			<div class='user-main-info'>
 				<div class="user-photo-area">
-					<img src="./sources/styles/Person.jpg" class="user-photo">
+					<div class="user-photo"><img src= ${obj.Photo || "./sources/styles/Person.jpg"}></div>
 					<div class="status align-center">Status: ${obj.Status || "Unknown"}</div>
 				</div>
 				<div class="first-info-column">
@@ -38,7 +40,16 @@ export default class ContactInfoView extends JetView {
 							label: "Delete",
 							icon: "wxi-trash",
 							css: "user-info-button",
-							width: 110
+							width: 110,
+							click: () => {
+								webix.confirm({
+									text: "Are you sure that you want to remove this contact?"
+								}).then(() => {
+									contacts.remove(this.getParam("id", true));
+									this.app.callEvent("onSelectFirst");
+								});
+								return false;
+							}
 						},
 						{
 							view: "button",
@@ -46,7 +57,11 @@ export default class ContactInfoView extends JetView {
 							label: "Edit",
 							icon: "wxi-pencil",
 							css: "user-info-button",
-							width: 110
+							width: 110,
+							click: () => {
+								const id = this.getParam("id", true);
+								this.app.callEvent("onEditClick", [id]);
+							}
 						}
 					]
 				},
@@ -62,7 +77,7 @@ export default class ContactInfoView extends JetView {
 						buttons
 					]
 				},
-				{}
+				{$subview: ContactsTableView}
 			]
 		};
 	}
@@ -72,11 +87,11 @@ export default class ContactInfoView extends JetView {
 			contacts.waitData,
 			statuses.waitData
 		]).then(() => {
-			const currentId = this.getParam("id") || contacts.getFirstId();
+			const currentId = this.getParam("id", true) || contacts.getFirstId();
 			const currentUser = contacts.getItem(currentId);
 			currentUser.Status = statuses.getItem(currentUser.StatusID).Value;
 			if (currentId && contacts.exists(currentId)) {
-				this.$$("userInfo").parse(contacts.getItem(currentId));
+				this.$$("contactInfo").parse(contacts.getItem(currentId));
 			}
 		});
 	}
