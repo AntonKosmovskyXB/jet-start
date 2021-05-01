@@ -21,6 +21,7 @@ export default class ContactsView extends JetView {
 							text: "Are you sure that you want to close contact editor? Data will not be saved"
 						}).then(() => {
 							this.setUrlParam(id);
+							this.app.callEvent("onShowForm", [id]);
 						});
 						return false;
 					}
