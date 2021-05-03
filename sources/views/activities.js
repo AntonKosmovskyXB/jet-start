@@ -10,6 +10,86 @@ export default class ActivitiesView extends JetView {
 		return {
 			rows: [
 				{
+					view: "tabbar",
+					optionWidth: 120,
+					options: [
+						{
+							value: "All",
+							id: "All"
+						},
+						{
+							value: "Overdue",
+							id: "Overdue"
+						},
+						{
+							value: "Completed",
+							id: "Completed"
+						},
+						{
+							value: "Today",
+							id: "Today"
+						},
+						{
+							value: "Tomorrow",
+							id: "Tomorrow"
+						},
+						{
+							value: "This week",
+							id: "Week"
+						},
+						{
+							value: "This month",
+							id: "Month"
+						}
+					],
+
+					on: {
+						onChange: (id) => {
+							if (id === "All") {
+								this.activitiesTable.filter();
+								this.activitiesTable.filterByAll();
+							}
+							if (id === "Overdue") {
+								this.activitiesTable.filter((obj) => {
+									this.activitiesTable.filter();
+									const date = new Date();
+									return obj.State === "Open" && date > obj.DueDate;
+								});
+							}
+							if (id === "Completed") {
+								this.activitiesTable.filter(obj => obj.State === "Close");
+							}
+							if (id === "Today") {
+								this.activitiesTable.filter((obj) => {
+									const date = new Date();
+									return date.getDate() === obj.DueDate.getDate();
+								});
+							}
+							if (id === "Tomorrow") {
+								this.activitiesTable.filter((obj) => {
+									const date = new Date();
+									const tomorrowDate = new Date(date.getTime() + (24 * 60 * 60 * 1000));
+									return tomorrowDate.getDate() === obj.DueDate.getDate();
+								});
+							}
+							if (id === "Week") {
+								this.activitiesTable.filter((obj) => {
+									const date = new Date();
+									const weekStart = webix.Date.weekStart(date);
+									const weekEnd = new Date(weekStart.getTime() + ((24 * 60 * 60 * 1000) * 7));
+									return obj.DueDate >= weekStart && obj.DueDate < weekEnd;
+								});
+							}
+							if (id === "Month") {
+								this.activitiesTable.filter((obj) => {
+									const date = new Date();
+									return date.getMonth() === obj.DueDate.getMonth();
+								});
+							}
+						}
+					}
+				},
+				{
 					cols: [
 						{
 							view: "button",
@@ -33,6 +113,8 @@ export default class ActivitiesView extends JetView {
 						{
 							id: "State",
 							header: "",
+							checkValue: "Close",
+							uncheckValue: "Open",
 							template: "{common.checkbox()}"
 						},
 						{
@@ -81,7 +163,7 @@ export default class ActivitiesView extends JetView {
 								text: "Are you sure that you want to remove this activity item?"
 							}).then(() => {
 								activities.remove(id);
-								this.app.callEvent("onDatatableChange");
+								this.app.callEvent("onDatatableChange", [this.activitiesTable.getState()]);
 							});
 							return false;
 						},

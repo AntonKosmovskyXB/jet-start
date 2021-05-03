@@ -7,6 +7,7 @@ import PopupView from "./popup";
 
 export default class ContactActivitiesView extends JetView {
 	config() {
+		const _ = this.app.getService("locale")._;
 		const activitiesTable = {
 			view: "datatable",
 			localId: "activitiesTable",
@@ -20,8 +21,9 @@ export default class ContactActivitiesView extends JetView {
 				},
 				{
 					id: "TypeID",
+					fillspace: true,
 					header: [
-						{text: "Activity type"},
+						{text: _("Activity type")},
 						{content: "selectFilter"}
 					],
 					sort: "int",
@@ -30,7 +32,7 @@ export default class ContactActivitiesView extends JetView {
 				{
 					id: "DueDate",
 					header: [
-						{text: "Due Date"},
+						{text: _("Due Date")},
 						{content: "dateRangeFilter"}
 					],
 					sort: "date",
@@ -40,7 +42,7 @@ export default class ContactActivitiesView extends JetView {
 					id: "Details",
 					fillspace: true,
 					header: [
-						{text: "Details"},
+						{text: _("Details")},
 						{content: "textFilter"}
 					],
 					sort: "text"
@@ -54,7 +56,7 @@ export default class ContactActivitiesView extends JetView {
 						text: "Are you sure that you want to remove this activity item?"
 					}).then(() => {
 						activities.remove(id);
-						this.app.callEvent("onDatatableChange", this.activitiesTable.getState());
+						this.app.callEvent("onDatatableChange", [this.activitiesTable.getState()]);
 					});
 					return false;
 				},
@@ -69,7 +71,7 @@ export default class ContactActivitiesView extends JetView {
 			view: "button",
 			type: "icon",
 			icon: "wxi-plus",
-			label: "Add activity",
+			label: _("Add activity"),
 			width: 200,
 			css: "webix_primary",
 			click: () => {

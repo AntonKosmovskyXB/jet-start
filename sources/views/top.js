@@ -2,11 +2,12 @@ import {JetView, plugins} from "webix-jet";
 
 export default class TopView extends JetView {
 	config() {
-		let header = {
+		const _ = this.app.getService("locale")._;
+		const header = {
 			type: "header", template: "Jet-start-app", height: 40
 		};
 
-		let menu = {
+		const menu = {
 			view: "menu",
 			id: "top:menu",
 			css: "app_menu",
@@ -15,13 +16,13 @@ export default class TopView extends JetView {
 			select: true,
 			template: "<span class='webix_icon #icon#'></span> #value# ",
 			data: [
-				{value: "Contacts", id: "contacts", icon: "wxi-user"},
-				{value: "Activities", id: "activities", icon: "wxi-calendar"},
-				{value: "Settings", id: "settings", icon: "mdi mdi-cogs"}
+				{value: _("Contacts"), id: "contacts", icon: "wxi-user"},
+				{value: _("Activities"), id: "activities", icon: "wxi-calendar"},
+				{value: _("Settings"), id: "settings", icon: "mdi mdi-cogs"}
 			]
 		};
 
-		let ui = {
+		const ui = {
 			css: "app_layout",
 			rows: [header,
 				{cols: [

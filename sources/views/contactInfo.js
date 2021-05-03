@@ -7,6 +7,7 @@ import ContactsTableView from "./contactsTable";
 
 export default class ContactInfoView extends JetView {
 	config() {
+		const _ = this.app.getService("locale")._;
 		const userInfoTemplate = {
 			type: "clean",
 			localId: "contactInfo",
@@ -37,10 +38,10 @@ export default class ContactInfoView extends JetView {
 						{
 							view: "button",
 							type: "icon",
-							label: "Delete",
+							label: _("Delete"),
 							icon: "wxi-trash",
 							css: "user-info-button",
-							width: 110,
+							width: 120,
 							click: () => {
 								webix.confirm({
 									text: "Are you sure that you want to remove this contact?"
@@ -54,10 +55,10 @@ export default class ContactInfoView extends JetView {
 						{
 							view: "button",
 							type: "icon",
-							label: "Edit",
+							label: _("Edit"),
 							icon: "wxi-pencil",
 							css: "user-info-button",
-							width: 110,
+							width: 120,
 							click: () => {
 								const id = this.getParam("id", true);
 								this.app.callEvent("onEditClick", [id]);

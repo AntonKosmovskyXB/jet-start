@@ -4,6 +4,7 @@ import contacts from "../models/contacts";
 
 export default class ContactsView extends JetView {
 	config() {
+		const _ = this.app.getService("locale")._;
 		const usersList = {
 			view: "list",
 			id: "contactsList",
@@ -41,7 +42,7 @@ export default class ContactsView extends JetView {
 			borderless: false,
 			type: "icon",
 			icon: "wxi-plus",
-			label: "Add contact",
+			label: _("Add contact"),
 			css: "webix_primary",
 			click: () => {
 				if (this.app.callEvent("isFormSaved", []) === false) {
@@ -60,9 +61,23 @@ export default class ContactsView extends JetView {
 			}
 		};
 
+		const filterInput = {
+			view: "text",
+			localId: "contactsFilter",
+			on: {
+				onTimedKeyPress: () => {
+					const filterValue = this.$$("contactsFilter").getValue().toLowerCase();
+					this.list.filter((obj) => {
+						const params = [obj.value, obj.Email, obj.Skype, obj.Job, obj.Company, obj.Address];
+						return params.some(elem => elem.toLowerCase().indexOf(filterValue) !== -1);
+					});
+				}
+			}
+		};
+
 		return {
 			cols: [
-				{rows: [usersList, addContactButton]},
+				{rows: [filterInput, usersList, addContactButton]},
 				{$subview: true}
 			]
 		};

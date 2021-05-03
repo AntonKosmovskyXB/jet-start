@@ -3,10 +3,9 @@ import {JetView} from "webix-jet";
 import contacts from "../models/contacts";
 import statuses from "../models/statuses";
 
-const labelWidth = 100;
-
 export default class ContactsFormView extends JetView {
 	config() {
+		const _ = this.app.getService("locale")._;
 		const contactsFormHeaderLabel = {
 			view: "label",
 			label: "Edit contact",
@@ -28,25 +27,26 @@ export default class ContactsFormView extends JetView {
 						{
 							view: "text",
 							name: "FirstName",
-							label: "First Name",
+							label: _("First Name"),
 							invalidMessage: "Field should not be empty"
 						},
 						{
 							view: "text",
 							name: "LastName",
-							label: "Last Name",
+							label: _("Last Name"),
 							invalidMessage: "Field should not be empty"
 						},
 						{
 							view: "datepicker",
 							name: "StartDate",
-							label: "Joining Date",
-							invalidMessage: "Field should not be empty"
+							label: _("Joining Date"),
+							invalidMessage: "Field should not be empty",
+							labelHeight: 50
 						},
 						{
 							view: "richselect",
 							name: "StatusID",
-							label: "Status",
+							label: _("Status"),
 							options: {
 								body: {
 									data: statuses,
@@ -58,26 +58,26 @@ export default class ContactsFormView extends JetView {
 						{
 							view: "text",
 							name: "Job",
-							label: "Job",
+							label: _("Job"),
 							required: false
 						},
 						{
 							view: "text",
 							name: "Company",
-							label: "Company",
+							label: _("Company"),
 							invalidMessage: "Field should not be empty"
 						},
 						{
 							view: "text",
 							name: "Website",
-							label: "Website",
+							label: _("Website"),
 							required: false
 
 						},
 						{
 							view: "text",
 							name: "Address",
-							label: "Address",
+							label: _("Address"),
 							required: false
 						}
 					]
@@ -90,25 +90,25 @@ export default class ContactsFormView extends JetView {
 						{
 							view: "text",
 							name: "Email",
-							label: "Email",
+							label: _("Email"),
 							invalidMessage: "Please, enter correct email address"
 						},
 						{
 							view: "text",
 							name: "Skype",
-							label: "Skype",
+							label: _("Skype"),
 							invalidMessage: "Field should not be empty"
 						},
 						{
 							view: "text",
 							name: "Phone",
-							label: "Phone",
+							label: _("Phone"),
 							invalidMessage: "Please, enter correct phone number"
 						},
 						{
 							view: "datepicker",
 							name: "Birthday",
-							label: "Birthday",
+							label: _("Birthday"),
 							invalidMessage: "Field should not be empty"
 						},
 						{
@@ -128,7 +128,7 @@ export default class ContactsFormView extends JetView {
 										{
 											view: "uploader",
 											localId: "photoUploader",
-											value: "Change photo",
+											value: _("Change photo"),
 											autosend: false,
 											on: {
 												onBeforeFileAdd: (obj) => {
@@ -143,7 +143,7 @@ export default class ContactsFormView extends JetView {
 										},
 										{
 											view: "button",
-											value: "Delete photo",
+											value: _("Delete photo"),
 											css: "webix_primary",
 											click: () => {
 												webix.confirm({
@@ -161,7 +161,7 @@ export default class ContactsFormView extends JetView {
 				}
 			],
 			elementsConfig: {
-				labelWidth,
+				labelWidth: 125,
 				required: true
 			},
 			rules: {
@@ -179,7 +179,7 @@ export default class ContactsFormView extends JetView {
 				{
 					view: "button",
 					localId: "cancelButton",
-					value: "Cancel",
+					value: _("Cancel"),
 					width: 150,
 					css: "webix_primary",
 					click: () => {
@@ -198,7 +198,7 @@ export default class ContactsFormView extends JetView {
 				{
 					view: "button",
 					localId: "saveButton",
-					value: "Save",
+					value: _("Save"),
 					width: 150,
 					css: "webix_primary",
 					click: () => {
