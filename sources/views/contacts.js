@@ -19,7 +19,7 @@ export default class ContactsView extends JetView {
 				onBeforeSelect: (id) => {
 					if (this.app.callEvent("isFormSaved", []) === false) {
 						webix.confirm({
-							text: "Are you sure that you want to close contact editor? Data will not be saved"
+							text: _("Are you sure that you want to close contact editor? Data will not be saved")
 						}).then(() => {
 							this.setUrlParam(id);
 							this.app.callEvent("onShowForm", [id]);
@@ -47,7 +47,7 @@ export default class ContactsView extends JetView {
 			click: () => {
 				if (this.app.callEvent("isFormSaved", []) === false) {
 					webix.confirm({
-						text: "Are you sure that you want to close contact editor? Data will not be saved"
+						text: _("Are you sure that you want to close contact editor? Data will not be saved")
 					}).then(() => {
 						this.app.callEvent("onShowForm");
 					});

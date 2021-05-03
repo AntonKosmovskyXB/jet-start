@@ -53,7 +53,7 @@ export default class ContactActivitiesView extends JetView {
 			onClick: {
 				"wxi-trash": (event, id) => {
 					webix.confirm({
-						text: "Are you sure that you want to remove this activity item?"
+						text: _("Are you sure that you want to remove this activity item?")
 					}).then(() => {
 						activities.remove(id);
 						this.app.callEvent("onDatatableChange", [this.activitiesTable.getState()]);

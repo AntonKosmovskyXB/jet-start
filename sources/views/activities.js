@@ -7,38 +7,39 @@ import PopupView from "./popup";
 
 export default class ActivitiesView extends JetView {
 	config() {
+		const _ = this.app.getService("locale")._;
 		return {
 			rows: [
 				{
 					view: "tabbar",
-					optionWidth: 120,
+					optionWidth: 140,
 					options: [
 						{
-							value: "All",
+							value: _("All"),
 							id: "All"
 						},
 						{
-							value: "Overdue",
+							value: _("Overdue"),
 							id: "Overdue"
 						},
 						{
-							value: "Completed",
+							value: _("Completed"),
 							id: "Completed"
 						},
 						{
-							value: "Today",
+							value: _("Today"),
 							id: "Today"
 						},
 						{
-							value: "Tomorrow",
+							value: _("Tomorrow"),
 							id: "Tomorrow"
 						},
 						{
-							value: "This week",
+							value: _("This week"),
 							id: "Week"
 						},
 						{
-							value: "This month",
+							value: _("This month"),
 							id: "Month"
 						}
 					],
@@ -94,7 +95,7 @@ export default class ActivitiesView extends JetView {
 						{
 							view: "button",
 							type: "icon",
-							label: "Add activity",
+							label: _("Add activity"),
 							icon: "mdi mdi-plus-circle",
 							css: "webix_primary",
 							width: 170,
@@ -120,16 +121,17 @@ export default class ActivitiesView extends JetView {
 						{
 							id: "TypeID",
 							header: [
-								{text: "Activity type"},
+								{text: _("Activity type")},
 								{content: "selectFilter"}
 							],
 							sort: "int",
+							fillspace: true,
 							collection: activitiesTypes
 						},
 						{
 							id: "DueDate",
 							header: [
-								{text: "Due Date"},
+								{text: _("Due Date")},
 								{content: "dateRangeFilter"}
 							],
 							sort: "date",
@@ -139,7 +141,7 @@ export default class ActivitiesView extends JetView {
 							id: "Details",
 							fillspace: true,
 							header: [
-								{text: "Details"},
+								{text: _("Details")},
 								{content: "textFilter"}
 							],
 							sort: "text"
@@ -147,7 +149,7 @@ export default class ActivitiesView extends JetView {
 						{
 							id: "ContactID",
 							header: [
-								{text: "Contact"},
+								{text: _("Contact")},
 								{content: "selectFilter"}
 							],
 							sort: "int",
@@ -160,7 +162,7 @@ export default class ActivitiesView extends JetView {
 					onClick: {
 						"wxi-trash": (event, id) => {
 							webix.confirm({
-								text: "Are you sure that you want to remove this activity item?"
+								text: _("Are you sure that you want to remove this activity item?")
 							}).then(() => {
 								activities.remove(id);
 								this.app.callEvent("onDatatableChange", [this.activitiesTable.getState()]);

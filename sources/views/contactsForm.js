@@ -8,7 +8,7 @@ export default class ContactsFormView extends JetView {
 		const _ = this.app.getService("locale")._;
 		const contactsFormHeaderLabel = {
 			view: "label",
-			label: "Edit contact",
+			label: _("Edit contact"),
 			localId: "headerLabel",
 			css: "header-label",
 			padding: 10
@@ -28,19 +28,19 @@ export default class ContactsFormView extends JetView {
 							view: "text",
 							name: "FirstName",
 							label: _("First Name"),
-							invalidMessage: "Field should not be empty"
+							invalidMessage: _("Field should not be empty")
 						},
 						{
 							view: "text",
 							name: "LastName",
 							label: _("Last Name"),
-							invalidMessage: "Field should not be empty"
+							invalidMessage: _("Field should not be empty")
 						},
 						{
 							view: "datepicker",
 							name: "StartDate",
 							label: _("Joining Date"),
-							invalidMessage: "Field should not be empty",
+							invalidMessage: _("Field should not be empty"),
 							labelHeight: 50
 						},
 						{
@@ -53,7 +53,7 @@ export default class ContactsFormView extends JetView {
 									template: "#Value#"
 								}
 							},
-							invalidMessage: "Field should not be empty"
+							invalidMessage: _("Field should not be empty")
 						},
 						{
 							view: "text",
@@ -65,7 +65,7 @@ export default class ContactsFormView extends JetView {
 							view: "text",
 							name: "Company",
 							label: _("Company"),
-							invalidMessage: "Field should not be empty"
+							invalidMessage: _("Field should not be empty")
 						},
 						{
 							view: "text",
@@ -91,25 +91,25 @@ export default class ContactsFormView extends JetView {
 							view: "text",
 							name: "Email",
 							label: _("Email"),
-							invalidMessage: "Please, enter correct email address"
+							invalidMessage: _("Please, enter correct email address")
 						},
 						{
 							view: "text",
 							name: "Skype",
 							label: _("Skype"),
-							invalidMessage: "Field should not be empty"
+							invalidMessage: _("Field should not be empty")
 						},
 						{
 							view: "text",
 							name: "Phone",
 							label: _("Phone"),
-							invalidMessage: "Please, enter correct phone number"
+							invalidMessage: _("Please, enter correct phone number")
 						},
 						{
 							view: "datepicker",
 							name: "Birthday",
 							label: _("Birthday"),
-							invalidMessage: "Field should not be empty"
+							invalidMessage: _("Field should not be empty")
 						},
 						{
 							cols: [
@@ -147,7 +147,7 @@ export default class ContactsFormView extends JetView {
 											css: "webix_primary",
 											click: () => {
 												webix.confirm({
-													text: "Are you sure that you want to delete photo?"
+													text: _("Are you sure that you want to delete photo?")
 												}).then(() => {
 													this.contactPhoto.setValues({Photo: ""});
 												});
@@ -184,7 +184,7 @@ export default class ContactsFormView extends JetView {
 					css: "webix_primary",
 					click: () => {
 						webix.confirm({
-							text: "Are you sure that you want to close contact editor?"
+							text: _("Are you sure that you want to close contact editor? Data will not be saved")
 						}).then(() => {
 							if (this.saveButton.getValue() === "Add") {
 								this.app.callEvent("onSelectFirst");
@@ -242,20 +242,21 @@ export default class ContactsFormView extends JetView {
 	}
 
 	updateForm(id) {
+		const _ = this.app.getService("locale")._;
 		this.clearForm();
 
 		if (id && contacts.exists(id)) {
 			const currentItem = contacts.getItem(id);
 			this.form.setValues(currentItem);
-			this.headerLabel.config.label = "Edit contact";
+			this.headerLabel.config.label = _("Edit contact");
 			this.headerLabel.refresh();
-			this.saveButton.setValue("Save");
+			this.saveButton.setValue(_("Save"));
 		}
 
 		else {
-			this.headerLabel.config.label = "Add new contact";
+			this.headerLabel.config.label = _("Add new contact");
 			this.headerLabel.refresh();
-			this.saveButton.setValue("Add");
+			this.saveButton.setValue(_("Add"));
 		}
 	}
 

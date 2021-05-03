@@ -5,6 +5,7 @@ import files from "../models/files";
 
 export default class ContactsFilesView extends JetView {
 	config() {
+		const _ = this.app.getService("locale")._;
 		const filesTable = {
 			view: "datatable",
 			localId: "filesTable",
@@ -34,7 +35,7 @@ export default class ContactsFilesView extends JetView {
 			onClick: {
 				"wxi-trash": (event, id) => {
 					webix.confirm({
-						text: "Are you sure that you want to remove this file?"
+						text: _("Are you sure that you want to remove this file?")
 					}).then(() => {
 						files.remove(id);
 					});

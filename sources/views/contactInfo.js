@@ -44,7 +44,7 @@ export default class ContactInfoView extends JetView {
 							width: 120,
 							click: () => {
 								webix.confirm({
-									text: "Are you sure that you want to remove this contact?"
+									text: _("Are you sure that you want to remove this contact?")
 								}).then(() => {
 									contacts.remove(this.getParam("id", true));
 									this.app.callEvent("onSelectFirst");
