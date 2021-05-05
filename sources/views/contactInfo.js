@@ -92,8 +92,8 @@ export default class ContactInfoView extends JetView {
 				const currentStatus = statuses.getItem(currentUser.StatusID);
 
 				if (currentStatus) {
-					currentUser.Status = statuses.getItem(currentUser.StatusID).Value;
-					currentUser.iconId = statuses.getItem(currentUser.StatusID).Icon;
+					currentUser.Status = currentStatus.Value;
+					currentUser.iconId = currentStatus.Icon;
 				}
 
 				else {

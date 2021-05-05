@@ -168,7 +168,7 @@ export default class ContactsFormView extends JetView {
 				Email: webix.rules.isEmail,
 				Phone: webix.rules.isNumber,
 				StatusID: (status, obj) => {
-					status = +obj.StatusID;
+					status = parseInt(obj.StatusID);
 					return statuses.data.order.includes(status);
 				}
 			}
