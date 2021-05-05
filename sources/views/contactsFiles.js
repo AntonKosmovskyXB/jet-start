@@ -15,19 +15,19 @@ export default class ContactsFilesView extends JetView {
 			columns: [
 				{
 					id: "name",
-					header: "Name",
+					header: _("Name"),
 					sort: "text",
 					fillspace: true
 				},
 				{
 					id: "ChangeDate",
-					header: "Change date",
+					header: _("Change date"),
 					sort: "date",
 					format: webix.i18n.dateFormatStr
 				},
 				{
 					id: "sizetext",
-					header: "Size",
+					header: _("Size"),
 					sort: this.sortFileSizes
 				},
 				{template: "<span class='webix_icon wxi-trash'></span>"}
@@ -35,7 +35,9 @@ export default class ContactsFilesView extends JetView {
 			onClick: {
 				"wxi-trash": (event, id) => {
 					webix.confirm({
-						text: _("Are you sure that you want to remove this file?")
+						text: _("Are you sure that you want to remove this file?"),
+						ok: _("Yes"),
+						cancel: _("No")
 					}).then(() => {
 						files.remove(id);
 					});
@@ -49,7 +51,7 @@ export default class ContactsFilesView extends JetView {
 			localId: "uploadButton",
 			type: "icon",
 			icon: "mdi mdi-cloud-upload",
-			label: "Upload file",
+			label: _("Upload file"),
 			css: "webix_primary",
 			autosend: false,
 			on: {

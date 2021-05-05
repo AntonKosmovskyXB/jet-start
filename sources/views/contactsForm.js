@@ -147,7 +147,9 @@ export default class ContactsFormView extends JetView {
 											css: "webix_primary",
 											click: () => {
 												webix.confirm({
-													text: _("Are you sure that you want to delete photo?")
+													text: _("Are you sure that you want to delete photo?"),
+													ok: _("Yes"),
+													cancel: _("No")
 												}).then(() => {
 													this.contactPhoto.setValues({Photo: ""});
 												});
@@ -188,7 +190,9 @@ export default class ContactsFormView extends JetView {
 					css: "webix_primary",
 					click: () => {
 						webix.confirm({
-							text: _("Are you sure that you want to close contact editor? Data will not be saved")
+							text: _("Are you sure that you want to close contact editor? Data will not be saved"),
+							ok: _("Yes"),
+							cancel: _("No")
 						}).then(() => {
 							if (this.saveButton.getValue() === "Add") {
 								this.app.callEvent("onSelectFirst");

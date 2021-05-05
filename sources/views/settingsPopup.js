@@ -54,7 +54,9 @@ export default class SettingsPopupView extends JetView {
 								css: "webix_primary",
 								click: () => {
 									webix.confirm({
-										text: _("Are you sure that you want to close editor?")
+										text: _("Are you sure that you want to close editor?"),
+										ok: _("Yes"),
+										cancel: _("No")
 									}).then(() => {
 										this.closePopup();
 									});

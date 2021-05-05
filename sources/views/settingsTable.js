@@ -37,7 +37,9 @@ export default class SettingsTableView extends JetView {
 			onClick: {
 				"wxi-trash": (event, id) => {
 					webix.confirm({
-						text: _(`Are you sure that you want to remove this ${this.label.toLowerCase()} item?`)
+						text: _(`Are you sure that you want to remove this ${this.label.toLowerCase()} item?`),
+						ok: _("Yes"),
+						cancel: _("No")
 					}).then(() => {
 						this.collection.remove(id);
 					});

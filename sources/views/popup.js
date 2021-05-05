@@ -80,6 +80,8 @@ export default class PopupView extends JetView {
 							{
 								view: "checkbox",
 								name: "State",
+								checkValue: "Close",
+								uncheckValue: "Open",
 								labelRight: _("Completed")
 							},
 							{}
@@ -100,6 +102,8 @@ export default class PopupView extends JetView {
 								value: _("Cancel"),
 								click: () => {
 									webix.confirm({
+										ok: _("Yes"),
+										cancel: _("No"),
 										text: _("Are you sure that you want to close editor?")
 									}).then(() => {
 										this.closePopup();

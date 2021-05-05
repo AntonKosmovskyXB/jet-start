@@ -14,7 +14,7 @@ export default class ContactInfoView extends JetView {
 			<div class='user-main-info'>
 				<div class="user-photo-area">
 					<div class="user-photo"><img src= ${obj.Photo || "./sources/styles/Person.jpg"}></div>
-					<div class="status align-center">Status: <span class='webix_icon mdi mdi-${obj.iconId}'></span>${obj.Status}</div>
+					<div class="status align-center">${_("Status")}: <span class='webix_icon mdi mdi-${obj.iconId}'></span>${obj.Status}</div>
 				</div>
 				<div class="first-info-column">
 					<span class='webix_icon mdi mdi-email'></span><span>${obj.Email || "Unknown"}</span> <br><br>
@@ -43,7 +43,9 @@ export default class ContactInfoView extends JetView {
 							width: 120,
 							click: () => {
 								webix.confirm({
-									text: _("Are you sure that you want to remove this contact?")
+									text: _("Are you sure that you want to remove this contact?"),
+									ok: _("Yes"),
+									cancel: _("No")
 								}).then(() => {
 									contacts.remove(this.getParam("id", true));
 								});
