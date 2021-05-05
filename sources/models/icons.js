@@ -16,6 +16,11 @@ const icons = new webix.DataCollection({
 			icon: "webix_icon mdi mdi-clock"
 		},
 		{
+			id: "phone",
+			value: "",
+			icon: "webix_icon mdi mdi-phone"
+		},
+		{
 			id: "comment",
 			value: "",
 			icon: "webix_icon mdi mdi-comment"
