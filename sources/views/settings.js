@@ -1,11 +1,16 @@
 import {JetView} from "webix-jet";
 
+
+import activitiesTypes from "../models/activitiesTypes";
+import statuses from "../models/statuses";
+import SettingsTableView from "./settingsTable";
+
 export default class SettingsView extends JetView {
 	config() {
 		const _ = this.app.getService("locale")._;
 		const lang = this.app.getService("locale").getLang();
-		return {
-			rows: [
+		const langToggle = {
+			cols: [
 				{
 					view: "segmented",
 					localId: "langToggle",
@@ -23,6 +28,20 @@ export default class SettingsView extends JetView {
 				{}
 			]
 		};
+
+		const tablesArea = {
+			cols: [
+				new SettingsTableView(this.app, "", activitiesTypes, _("Activities types"), "Activity"),
+				new SettingsTableView(this.app, "", statuses, _("Statuses"), "Status")
+			]
+		};
+
+		return {
+			rows: [
+				langToggle,
+				tablesArea
+			]
+		};
 	}
 
 	changeLanguage() {
@@ -31,4 +50,3 @@ export default class SettingsView extends JetView {
 		languages.setLang(value);
 	}
 }
-

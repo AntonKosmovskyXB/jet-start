@@ -27,7 +27,14 @@ export default class ContactActivitiesView extends JetView {
 						{content: "selectFilter"}
 					],
 					sort: "int",
-					collection: activitiesTypes
+					collection: activitiesTypes,
+					template: (obj) => {
+						const activityType = activitiesTypes.getItem(obj.TypeID);
+						if (activityType) {
+							return `<span class="webix_icon mdi mdi-${activityType.Icon}"></span> ${activityType.Value}`;
+						}
+						return "Unknown";
+					}
 				},
 				{
 					id: "DueDate",

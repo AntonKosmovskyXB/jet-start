@@ -12,6 +12,7 @@ export default class ActivitiesView extends JetView {
 			rows: [
 				{
 					view: "tabbar",
+					localId: "tabbar",
 					optionWidth: 140,
 					options: [
 						{
@@ -45,48 +46,8 @@ export default class ActivitiesView extends JetView {
 					],
 
 					on: {
-						onChange: (id) => {
-							if (id === "All") {
-								this.activitiesTable.filter();
-								this.activitiesTable.filterByAll();
-							}
-							if (id === "Overdue") {
-								this.activitiesTable.filter((obj) => {
-									this.activitiesTable.filter();
-									const date = new Date();
-									return obj.State === "Open" && date > obj.DueDate;
-								});
-							}
-							if (id === "Completed") {
-								this.activitiesTable.filter(obj => obj.State === "Close");
-							}
-							if (id === "Today") {
-								this.activitiesTable.filter((obj) => {
-									const date = new Date();
-									return date.getDate() === obj.DueDate.getDate();
-								});
-							}
-							if (id === "Tomorrow") {
-								this.activitiesTable.filter((obj) => {
-									const date = new Date();
-									const tomorrowDate = new Date(date.getTime() + (24 * 60 * 60 * 1000));
-									return tomorrowDate.getDate() === obj.DueDate.getDate();
-								});
-							}
-							if (id === "Week") {
-								this.activitiesTable.filter((obj) => {
-									const date = new Date();
-									const weekStart = webix.Date.weekStart(date);
-									const weekEnd = new Date(weekStart.getTime() + ((24 * 60 * 60 * 1000) * 7));
-									return obj.DueDate >= weekStart && obj.DueDate < weekEnd;
-								});
-							}
-							if (id === "Month") {
-								this.activitiesTable.filter((obj) => {
-									const date = new Date();
-									return date.getMonth() === obj.DueDate.getMonth();
-								});
-							}
+						onChange: () => {
+							this.activitiesTable.filterByAll();
 						}
 					}
 				},
@@ -126,7 +87,14 @@ export default class ActivitiesView extends JetView {
 							],
 							sort: "int",
 							fillspace: true,
-							collection: activitiesTypes
+							collection: activitiesTypes,
+							template: (obj) => {
+								const activityType = activitiesTypes.getItem(obj.TypeID);
+								if (activityType) {
+									return `<span class="webix_icon mdi mdi-${activityType.Icon}"></span> ${activityType.Value}`;
+								}
+								return "";
+							}
 						},
 						{
 							id: "DueDate",
@@ -187,5 +155,45 @@ export default class ActivitiesView extends JetView {
 			this.activitiesTable.setState(state);
 			this.activitiesTable.filterByAll();
 		});
+		this.activitiesTable.registerFilter(
+			this.$$("tabbar"),
+			{compare: (cellValue, name, obj) => this.turnOnTabbarFilter(name, obj)},
+			{
+				getValue: obj => obj.getValue(),
+				setValue: (obj, value) => obj.setValue(value)
+			}
+		);
+	}
+
+	turnOnTabbarFilter(id, obj) {
+		const date = new Date();
+		if (id === "Overdue") {
+			return obj.State === "Open" && date > obj.DueDate;
+		}
+
+		if (id === "Completed") {
+			return obj.State === "Close";
+		}
+
+		if (id === "Today") {
+			return date.getDate() === obj.DueDate.getDate();
+		}
+
+		if (id === "Tomorrow") {
+			const tomorrowDate = new Date(date.getTime() + (24 * 60 * 60 * 1000));
+			return tomorrowDate.getDate() === obj.DueDate.getDate();
+		}
+
+		if (id === "Week") {
+			const weekStart = webix.Date.weekStart(date);
+			const weekEnd = new Date(weekStart.getTime() + ((24 * 60 * 60 * 1000) * 7));
+			return obj.DueDate >= weekStart && obj.DueDate < weekEnd;
+		}
+
+		if (id === "Month") {
+			return date.getMonth() === obj.DueDate.getMonth();
+		}
+
+		return true;
 	}
 }

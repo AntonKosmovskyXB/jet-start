@@ -4,9 +4,6 @@ const activitiesTypes = new webix.DataCollection({
 	scheme: {
 		$init: (obj) => {
 			obj.value = obj.Value;
-		},
-		$save: (obj) => {
-			obj.Value = obj.value;
 		}
 	}
 });

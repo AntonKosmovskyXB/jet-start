@@ -41,6 +41,11 @@ export default {
 	Type: "Тип",
 	Date: "Дата",
 	Time: "Время",
+	Language: "Язык",
+	Icon: "Иконка",
+	Activity: "Действие",
+	Statuses: "Статусы",
+	"Add status": "Добавить статус",
 	"Edit activity": "Редактировать действие",
 	"Type should be selected": "Тип должен быть выбран",
 	"Contact should be selected": "Контакт должен быть выбран",
@@ -52,6 +57,12 @@ export default {
 	"Are you sure that you want to close contact editor? Data will not be saved": "Вы уверены что хотите закрыть редактор контактов? Данные не будут сохранены",
 	"Are you sure that you want to close editor?": "Вы уверены что хотите закрыть редактор?",
 	"Are you sure that you want to remove this file?": "Вы уверены что хотите удалить этот файл?",
+	"Are you sure that you want to remove this status item?": "Вы уверены что хотите удалить этот статус?",
 	"Time should be selected": "Время должно быть выбрано",
-	"Date should be selected": "Дата должна быть выбрана"
+	"Date should be selected": "Дата должна быть выбрана",
+	"Icon must be selected": "Иконка должна быть выбрана",
+	"Edit status": "Редактировать статус",
+	"Activities types": "Типы действий",
+	"Add activity type": "Добавить тип действия",
+	"Add status type": "Добавить статус"
 };

@@ -166,7 +166,11 @@ export default class ContactsFormView extends JetView {
 			},
 			rules: {
 				Email: webix.rules.isEmail,
-				Phone: webix.rules.isNumber
+				Phone: webix.rules.isNumber,
+				StatusID: (status, obj) => {
+					status = +obj.StatusID;
+					return statuses.data.order.includes(status);
+				}
 			}
 		};
 
@@ -189,7 +193,6 @@ export default class ContactsFormView extends JetView {
 							if (this.saveButton.getValue() === "Add") {
 								this.app.callEvent("onSelectFirst");
 							}
-							this.app.callEvent("onCloseForm");
 							this.clearForm();
 							this.show("./contactInfo");
 						});

@@ -4,7 +4,6 @@ import contacts from "../models/contacts";
 import statuses from "../models/statuses";
 import ContactsTableView from "./contactsTable";
 
-
 export default class ContactInfoView extends JetView {
 	config() {
 		const _ = this.app.getService("locale")._;
@@ -15,7 +14,7 @@ export default class ContactInfoView extends JetView {
 			<div class='user-main-info'>
 				<div class="user-photo-area">
 					<div class="user-photo"><img src= ${obj.Photo || "./sources/styles/Person.jpg"}></div>
-					<div class="status align-center">Status: ${obj.Status || "Unknown"}</div>
+					<div class="status align-center">Status: <span class='webix_icon mdi mdi-${obj.iconId}'></span>${obj.Status}</div>
 				</div>
 				<div class="first-info-column">
 					<span class='webix_icon mdi mdi-email'></span><span>${obj.Email || "Unknown"}</span> <br><br>
@@ -47,7 +46,6 @@ export default class ContactInfoView extends JetView {
 									text: _("Are you sure that you want to remove this contact?")
 								}).then(() => {
 									contacts.remove(this.getParam("id", true));
-									this.app.callEvent("onSelectFirst");
 								});
 								return false;
 							}
@@ -90,9 +88,20 @@ export default class ContactInfoView extends JetView {
 		]).then(() => {
 			const currentId = this.getParam("id", true) || contacts.getFirstId();
 			const currentUser = contacts.getItem(currentId);
-			currentUser.Status = statuses.getItem(currentUser.StatusID).Value;
 			if (currentId && contacts.exists(currentId)) {
-				this.$$("contactInfo").parse(contacts.getItem(currentId));
+				const currentStatus = statuses.getItem(currentUser.StatusID);
+
+				if (currentStatus) {
+					currentUser.Status = statuses.getItem(currentUser.StatusID).Value;
+					currentUser.iconId = statuses.getItem(currentUser.StatusID).Icon;
+				}
+
+				else {
+					currentUser.Status = "Unknown";
+					currentUser.iconId = "";
+				}
+
+				this.$$("contactInfo").setValues(currentUser);
 			}
 		});
 	}
