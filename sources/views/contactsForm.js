@@ -3,13 +3,12 @@ import {JetView} from "webix-jet";
 import contacts from "../models/contacts";
 import statuses from "../models/statuses";
 
-const labelWidth = 100;
-
 export default class ContactsFormView extends JetView {
 	config() {
+		const _ = this.app.getService("locale")._;
 		const contactsFormHeaderLabel = {
 			view: "label",
-			label: "Edit contact",
+			label: _("Edit contact"),
 			localId: "headerLabel",
 			css: "header-label",
 			padding: 10
@@ -28,56 +27,57 @@ export default class ContactsFormView extends JetView {
 						{
 							view: "text",
 							name: "FirstName",
-							label: "First Name",
-							invalidMessage: "Field should not be empty"
+							label: _("First Name"),
+							invalidMessage: _("Field should not be empty")
 						},
 						{
 							view: "text",
 							name: "LastName",
-							label: "Last Name",
-							invalidMessage: "Field should not be empty"
+							label: _("Last Name"),
+							invalidMessage: _("Field should not be empty")
 						},
 						{
 							view: "datepicker",
 							name: "StartDate",
-							label: "Joining Date",
-							invalidMessage: "Field should not be empty"
+							label: _("Joining Date"),
+							invalidMessage: _("Field should not be empty"),
+							labelHeight: 50
 						},
 						{
 							view: "richselect",
 							name: "StatusID",
-							label: "Status",
+							label: _("Status"),
 							options: {
 								body: {
 									data: statuses,
 									template: "#Value#"
 								}
 							},
-							invalidMessage: "Field should not be empty"
+							invalidMessage: _("Field should not be empty")
 						},
 						{
 							view: "text",
 							name: "Job",
-							label: "Job",
+							label: _("Job"),
 							required: false
 						},
 						{
 							view: "text",
 							name: "Company",
-							label: "Company",
-							invalidMessage: "Field should not be empty"
+							label: _("Company"),
+							invalidMessage: _("Field should not be empty")
 						},
 						{
 							view: "text",
 							name: "Website",
-							label: "Website",
+							label: _("Website"),
 							required: false
 
 						},
 						{
 							view: "text",
 							name: "Address",
-							label: "Address",
+							label: _("Address"),
 							required: false
 						}
 					]
@@ -90,26 +90,26 @@ export default class ContactsFormView extends JetView {
 						{
 							view: "text",
 							name: "Email",
-							label: "Email",
-							invalidMessage: "Please, enter correct email address"
+							label: _("Email"),
+							invalidMessage: _("Please, enter correct email address")
 						},
 						{
 							view: "text",
 							name: "Skype",
-							label: "Skype",
-							invalidMessage: "Field should not be empty"
+							label: _("Skype"),
+							invalidMessage: _("Field should not be empty")
 						},
 						{
 							view: "text",
 							name: "Phone",
-							label: "Phone",
-							invalidMessage: "Please, enter correct phone number"
+							label: _("Phone"),
+							invalidMessage: _("Please, enter correct phone number")
 						},
 						{
 							view: "datepicker",
 							name: "Birthday",
-							label: "Birthday",
-							invalidMessage: "Field should not be empty"
+							label: _("Birthday"),
+							invalidMessage: _("Field should not be empty")
 						},
 						{
 							cols: [
@@ -128,7 +128,7 @@ export default class ContactsFormView extends JetView {
 										{
 											view: "uploader",
 											localId: "photoUploader",
-											value: "Change photo",
+											value: _("Change photo"),
 											autosend: false,
 											on: {
 												onBeforeFileAdd: (obj) => {
@@ -143,11 +143,13 @@ export default class ContactsFormView extends JetView {
 										},
 										{
 											view: "button",
-											value: "Delete photo",
+											value: _("Delete photo"),
 											css: "webix_primary",
 											click: () => {
 												webix.confirm({
-													text: "Are you sure that you want to delete photo?"
+													text: _("Are you sure that you want to delete photo?"),
+													ok: _("Yes"),
+													cancel: _("No")
 												}).then(() => {
 													this.contactPhoto.setValues({Photo: ""});
 												});
@@ -161,12 +163,16 @@ export default class ContactsFormView extends JetView {
 				}
 			],
 			elementsConfig: {
-				labelWidth,
+				labelWidth: 125,
 				required: true
 			},
 			rules: {
 				Email: webix.rules.isEmail,
-				Phone: webix.rules.isNumber
+				Phone: webix.rules.isNumber,
+				StatusID: (status, obj) => {
+					status = obj.StatusID;
+					return statuses.exists(status);
+				}
 			}
 		};
 
@@ -179,17 +185,18 @@ export default class ContactsFormView extends JetView {
 				{
 					view: "button",
 					localId: "cancelButton",
-					value: "Cancel",
+					value: _("Cancel"),
 					width: 150,
 					css: "webix_primary",
 					click: () => {
 						webix.confirm({
-							text: "Are you sure that you want to close contact editor?"
+							text: _("Are you sure that you want to close contact editor? Data will not be saved"),
+							ok: _("Yes"),
+							cancel: _("No")
 						}).then(() => {
 							if (this.saveButton.getValue() === "Add") {
 								this.app.callEvent("onSelectFirst");
 							}
-							this.app.callEvent("onCloseForm");
 							this.clearForm();
 							this.show("./contactInfo");
 						});
@@ -198,7 +205,7 @@ export default class ContactsFormView extends JetView {
 				{
 					view: "button",
 					localId: "saveButton",
-					value: "Save",
+					value: _("Save"),
 					width: 150,
 					css: "webix_primary",
 					click: () => {
@@ -242,20 +249,22 @@ export default class ContactsFormView extends JetView {
 	}
 
 	updateForm(id) {
+		const _ = this.app.getService("locale")._;
 		this.clearForm();
 
 		if (id && contacts.exists(id)) {
 			const currentItem = contacts.getItem(id);
+			this.contactPhoto.setValues({Photo: currentItem.Photo});
 			this.form.setValues(currentItem);
-			this.headerLabel.config.label = "Edit contact";
+			this.headerLabel.config.label = _("Edit contact");
 			this.headerLabel.refresh();
-			this.saveButton.setValue("Save");
+			this.saveButton.setValue(_("Save"));
 		}
 
 		else {
-			this.headerLabel.config.label = "Add new contact";
+			this.headerLabel.config.label = _("Add new contact");
 			this.headerLabel.refresh();
-			this.saveButton.setValue("Add");
+			this.saveButton.setValue(_("Add"));
 		}
 	}
 
@@ -263,6 +272,7 @@ export default class ContactsFormView extends JetView {
 		const validationResult = this.form.validate();
 		if (validationResult) {
 			const newItem = this.form.getValues();
+			newItem.Photo = this.contactPhoto.getValues().Photo;
 			this.clearForm();
 			if (newItem.id) {
 				contacts.updateItem(newItem.id, newItem);

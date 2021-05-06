@@ -5,14 +5,15 @@ import ContactFilesView from "./contactsFiles";
 
 export default class ContactsTableView extends JetView {
 	config() {
+		const _ = this.app.getService("locale")._;
 		return {
 			rows: [
 				{
 					view: "tabbar",
 					localId: "tableTabbar",
 					options: [
-						{value: "Activities", id: "activitiesTable"},
-						{value: "Files", id: "filesTable"}
+						{value: _("Activities"), id: "activitiesTable"},
+						{value: _("Files"), id: "filesTable"}
 					],
 					on: {
 						onChange: (table) => {

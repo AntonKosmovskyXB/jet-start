@@ -123,3 +123,8 @@
     display: flex;
     justify-content: space-between;
 }
+
+.user-list-photo {
+    width: 20px;
+    height: 25px;
+}
