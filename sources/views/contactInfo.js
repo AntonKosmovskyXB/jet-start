@@ -89,7 +89,7 @@ export default class ContactInfoView extends JetView {
 			statuses.waitData
 		]).then(() => {
 			const currentId = this.getParam("id", true) || contacts.getFirstId();
-			const currentUser = contacts.getItem(currentId);
+			const currentUser = webix.copy(contacts.getItem(currentId));
 			if (currentId && contacts.exists(currentId)) {
 				const currentStatus = statuses.getItem(currentUser.StatusID);
 

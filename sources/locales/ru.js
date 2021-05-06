@@ -8,7 +8,7 @@ export default {
 	Files: "Файлы",
 	Status: "Статус",
 	Delete: "Удалить",
-	Edit: "Исправить",
+	Edit: "Изменить",
 	"Activity type": "Тип действия",
 	"Due Date": "Дата",
 	Details: "Детали",

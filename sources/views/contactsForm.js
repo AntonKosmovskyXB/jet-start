@@ -170,8 +170,8 @@ export default class ContactsFormView extends JetView {
 				Email: webix.rules.isEmail,
 				Phone: webix.rules.isNumber,
 				StatusID: (status, obj) => {
-					status = parseInt(obj.StatusID);
-					return statuses.data.order.includes(status);
+					status = obj.StatusID;
+					return statuses.exists(status);
 				}
 			}
 		};
@@ -254,6 +254,7 @@ export default class ContactsFormView extends JetView {
 
 		if (id && contacts.exists(id)) {
 			const currentItem = contacts.getItem(id);
+			this.contactPhoto.setValues({Photo: currentItem.Photo});
 			this.form.setValues(currentItem);
 			this.headerLabel.config.label = _("Edit contact");
 			this.headerLabel.refresh();
@@ -271,6 +272,7 @@ export default class ContactsFormView extends JetView {
 		const validationResult = this.form.validate();
 		if (validationResult) {
 			const newItem = this.form.getValues();
+			newItem.Photo = this.contactPhoto.getValues().Photo;
 			this.clearForm();
 			if (newItem.id) {
 				contacts.updateItem(newItem.id, newItem);

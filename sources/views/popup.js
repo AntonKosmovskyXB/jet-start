@@ -114,8 +114,8 @@ export default class PopupView extends JetView {
 					}
 				],
 				rules: {
-					ContactID: id => contacts.data.order.includes(parseInt(id)),
-					TypeID: id => activitiesTypes.data.order.includes(parseInt(id))
+					ContactID: id => contacts.exists(id),
+					TypeID: id => activitiesTypes.exists(id)
 				}
 			}
 		};

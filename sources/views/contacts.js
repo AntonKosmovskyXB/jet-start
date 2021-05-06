@@ -11,7 +11,7 @@ export default class ContactsView extends JetView {
 			select: true,
 			width: 300,
 			type: {
-				template: obj => `<div class="contacts-list">${obj.Photo || "<span class='webix_icon wxi-user'></span>"} <div class='short-info'>
+				template: obj => `<div class="contacts-list"><img src="${obj.Photo || "./sources/styles/Person.jpg"}" alt="" class="user-list-photo"><div class='short-info'>
 				<span class='contact-name'>${obj.value}</span> <br> <span class='contact-company' style="font-size: 11px">${obj.Company}</span></div></div>`,
 				height: 45
 			},

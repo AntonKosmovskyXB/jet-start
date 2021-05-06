@@ -178,12 +178,16 @@ export default class ActivitiesView extends JetView {
 		}
 
 		if (id === "Today") {
-			return date.getDate() === obj.DueDate.getDate();
+			return date.getDate() === obj.DueDate.getDate() &&
+			date.getMonth() === obj.DueDate.getMonth() &&
+			date.getFullYear() === obj.DueDate.getFullYear();
 		}
 
 		if (id === "Tomorrow") {
 			const tomorrowDate = new Date(date.getTime() + (24 * 60 * 60 * 1000));
-			return tomorrowDate.getDate() === obj.DueDate.getDate();
+			return tomorrowDate.getDate() === obj.DueDate.getDate() &&
+			tomorrowDate.getMonth() === obj.DueDate.getMonth() &&
+			tomorrowDate.getFullYear() === obj.DueDate.getFullYear();
 		}
 
 		if (id === "Week") {
@@ -193,7 +197,8 @@ export default class ActivitiesView extends JetView {
 		}
 
 		if (id === "Month") {
-			return date.getMonth() === obj.DueDate.getMonth();
+			return date.getMonth() === obj.DueDate.getMonth() &&
+			date.getFullYear() === obj.DueDate.getFullYear();
 		}
 
 		return true;
